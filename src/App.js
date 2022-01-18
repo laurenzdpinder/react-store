@@ -1,20 +1,23 @@
+import React, { useContext } from 'react';
 import { Route, Switch } from "react-router-dom";
-import Provider from "./context/Provider";
+import MyContext from './context/MyContext';
+import Header from "./components/Header";
 import Cart from "./pages/Cart";
-// import Header from "./components/Header";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 
 function App() {
+  const { setFilters } = useContext(MyContext);
+
   return (
-    <Provider>
-      {/* <Header /> */}
+    <>
+      <Header changeFilters={ filters => setFilters(filters) } />
       <Switch>
         <Route path="/cart" component={ Cart } />
         <Route path="/productdetails/:id" component={ ProductDetails } />
         <Route path="/" component={ Home } />
       </Switch>
-    </Provider>
+    </>
   );
 }
 

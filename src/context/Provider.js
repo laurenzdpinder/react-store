@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
-  const context = {};
+  const [filters, setFilters] = useState({ input: 'Computador', select: '' });
+  const context = {
+    filters,
+    setFilters
+  };
 
   return(
     <MyContext.Provider value={context}>

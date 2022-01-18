@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
+import React, { useContext, useEffect, useState } from "react";
+import MyContext from '../context/MyContext';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from '../components/ProductCard';
 
 function Home() {
-  const [filters, setFilters] = useState({ input: 'Computador', select: '' });
+  const { filters } = useContext(MyContext);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
@@ -31,7 +31,6 @@ function Home() {
 
   return(
     <>
-      <Header changeFilters={ filters => setFilters(filters) } />
       { loading ? loadingElement : <ProductCard products={ products } /> }
     </>
   );

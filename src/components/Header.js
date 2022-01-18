@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getCategories } from '../services/api';
 import react_hooks_icon from '../assets/images/react_hooks_icon.png';
 
 function Header({ changeFilters }) {
   const [categories, setCategories] = useState([{}]);
   const [filters, setFilters] = useState({ input: '', select: '' });
+  let history = useHistory();
 
   const { input, select } = filters;
 
@@ -26,14 +27,15 @@ function Header({ changeFilters }) {
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
     changeFilters(filters);
+    history.push("/");
   }
 
   return(
-        <div className="d-flex">
-      <div>
+    <div className="d-flex">
+      <Link to="/">
         <h1>Frontend Online Store</h1>
         <img src={ react_hooks_icon } alt="react hooks icon" style={ { width: '40px' } }/>
-      </div>
+      </Link>
 
       <form className="search-bar">
         <select
@@ -81,7 +83,7 @@ function Header({ changeFilters }) {
       </form>
       
       <div>
-        <h3>Olá faça o seu Login ou cadastre-se</h3>
+        <h4>Olá, faça o seu login ou cadastre-se</h4>
       </div>
 
       <Link to="/cart">
