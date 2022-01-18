@@ -57,7 +57,7 @@ function ProductDetails({ match: { params: { id } } }) {
                     thumbnail,
                     title,
                   });
-                  // history.push("/cart")
+                  history.push("/cart")
                 } }
                 type="button"
               >
