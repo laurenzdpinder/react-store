@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react';
+import MyContext from '../context/MyContext';
+import { useHistory } from 'react-router-dom';
 import { getProductFromId } from '../services/api';
 import getHdImage from '../helpers/hdImage';
 import { addProduct } from '../helpers/localStorageCart'
 
 function ProductDetails({ match: { params: { id } } }) {
+  const { setFilters } = useContext(MyContext);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1)
+
   let history = useHistory();
 
   const { attributes, price, thumbnail, title } = product;
@@ -72,6 +75,7 @@ function ProductDetails({ match: { params: { id } } }) {
                     thumbnail,
                     title,
                   });
+                  setFilters({ input: 'Computador', select: '' })
                   history.push("/")
                 } }
                 type="button"
