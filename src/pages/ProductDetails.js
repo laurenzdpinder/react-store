@@ -7,7 +7,7 @@ import { addProduct } from '../helpers/localStorageCart'
 function ProductDetails({ match: { params: { id } } }) {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1)
-  const history = useHistory();
+  let history = useHistory();
 
   const { attributes, price, thumbnail, title } = product;
 
@@ -57,7 +57,7 @@ function ProductDetails({ match: { params: { id } } }) {
                     thumbnail,
                     title,
                   });
-                  history("/cart")
+                  // history.push("/cart")
                 } }
                 type="button"
               >
@@ -72,7 +72,7 @@ function ProductDetails({ match: { params: { id } } }) {
                     thumbnail,
                     title,
                   });
-                  history("/")
+                  history.push("/")
                 } }
                 type="button"
               >
