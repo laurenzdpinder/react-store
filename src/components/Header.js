@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 import react_hooks_icon from '../assets/images/react_hooks_icon.png';
 
-function Header() {
+function Header({ changeFilters }) {
   const [categories, setCategories] = useState([{}]);
   const [filters, setFilters] = useState({ input: '', select: '' });
 
@@ -25,7 +25,7 @@ function Header() {
 
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
-    // changeFilters(filters);
+    changeFilters(filters);
   }
 
   return(
