@@ -1,0 +1,52 @@
+.header {
+  align-items: center;
+  background-color: rgb(62, 121, 208);
+  border-bottom: 1px solid;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  padding: 25px;
+}
+
+.header p {
+  color: rgb(254, 254, 254);
+  margin: 0;
+}
+
+.logo {
+  color: rgb(254, 254, 254);
+  display: flex;
+  text-decoration: none;
+}
+
+.search-bar {
+  display: flex;
+  flex-basis: 50%;
+}
+
+.search-bar button {
+  background-color: rgb(254, 254, 254);
+  border: 0;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.search-bar input {
+  background-color: rgb(254, 254, 254);
+  border: 0;
+  flex-basis: 100%;
+  padding: 10px;
+}
+
+.search-bar select {
+  background-color: rgb(254, 254, 254);
+  border: 0;
+  border-radius: 10px 0 0 10px;
+  padding: 10px;
+  /* max-width: 250px; */
+}
+
+.search-button {
+  border-radius: 0 10px 10px 0;
+}

@@ -3,9 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { getCategories } from '../services/api';
 import react_hooks_icon from '../assets/images/react_hooks_icon.png';
+import '../assets/css/Header.css';
 
 function Header() {
-  const { setFilters } = useContext(MyContext);
+  const { productsQuantity, setFilters } = useContext(MyContext);
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
 
@@ -19,7 +20,8 @@ function Header() {
       setCategories(categoriesFromAPI);
     }
     fetchCategories();
-  }, [])
+    // console.log(document.querySelector('input').value);
+  }, []);
 
   const handleFilterOnChange = ({ target: { name, value } }) => {
     setFiltersOnChange((prev) => ({ ...prev, [name]: value }))
@@ -34,10 +36,13 @@ function Header() {
   }
 
   return(
-    <div className="d-flex">
-      <Link to="/">
-        <h1>Frontend Online Store</h1>
-        <img src={ react_hooks_icon } alt="react hooks icon" style={ { width: '40px' } }/>
+    <div 
+      className="header">
+      <Link className="logo" to="/">
+        <h1>React</h1>
+        <h1>St</h1>
+        <img src={ react_hooks_icon } alt="react hooks icon" style={ { width: '60px' } }/>
+        <h1>re</h1>
       </Link>
 
       <form className="search-bar">
@@ -58,7 +63,6 @@ function Header() {
         </select>
 
         <input
-        className="input"
           name= "input"
           onChange={ handleFilterOnChange }
           placeholder="Busque aqui seu produto"
@@ -76,7 +80,7 @@ function Header() {
         </button>
 
         <button
-          className="search-btn"
+          className="search-button"
           disabled={ !isDelBtnDisabled()  }
           onClick={ handleSearchBtnOnClick }
           type="submit"
@@ -86,16 +90,20 @@ function Header() {
       </form>
       
       <div>
-        <h4>Olá, faça o seu login ou cadastre-se</h4>
+        <p>Olá, faça o seu login</p>
+        <p>ou cadastre-se </p>
       </div>
 
-      <Link to="/cart">
-        <p>0</p>
-        <button type="button" className="car-btn"><i className="fas fa-shopping-cart"></i></button>
+      <Link to="/cart" className="d-flex">
+        <p>{ productsQuantity }</p>
+        <button 
+          type="button"
+        >
+          <i className="fas fa-shopping-cart"></i>
+        </button>
       </Link>
     </div>
   );
 }
 
 export default Header;
-
