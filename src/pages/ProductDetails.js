@@ -3,12 +3,13 @@ import MyContext from '../context/MyContext';
 import { useHistory } from 'react-router-dom';
 import { getProductFromId } from '../services/api';
 import getHdImage from '../helpers/hdImage';
-import { addProduct } from '../helpers/localStorageCart'
+import { addProduct, getProductsQuantity } from '../helpers/localStorageCart'
 
 function ProductDetails({ match: { params: { id } } }) {
-  const { setFilters } = useContext(MyContext);
+  const { setFilters, setProductsQuantity } = useContext(MyContext);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1)
+  const [isSelectOn, setIsSelectOn] = useState(true);
 
   let history = useHistory();
 
@@ -22,62 +23,80 @@ function ProductDetails({ match: { params: { id } } }) {
     fetchProduct();
   }, [id])
 
+  useEffect(() => {
+    if(quantity === "10") {
+      setIsSelectOn(false);
+    }
+  }, [quantity, isSelectOn])
+
+  const handleBtnOnClick = ({ target }) => {
+    addProduct({ id, price, quantity, thumbnail, title });
+
+    setFilters({ input: 'Computador', select: '' });
+
+    const productsQuantity = getProductsQuantity();
+    setProductsQuantity(productsQuantity);
+
+    target.innerText === 'Adicionar ao carrinho' 
+      ? history.push("/") : history.push("/cart")
+  }
+
+  const arrayOfNumbers = [...Array(10).keys()];
+  arrayOfNumbers.shift();
+
   return(
-    <>
+    <div className="d-flex">
     {
       Object.keys(product).length > 0
         && (
           <>
-            <img src={ getHdImage(thumbnail) } alt={title} />
-            <h3>{ title }</h3>
-            <h3>{ price }</h3>
-            { attributes.map(({ name, value_name }, index) => (
-              <div key={ `ProductDetails-${index}` } style={{ display: 'flex' }}>
-                <h3 style={{ margin: '2px' }}>{ `${name} - ` }</h3>
-                <h3 style={{ margin: '2px' }}>{ value_name }</h3>
-              </div>
-            )) }
-            <div style={{ display: 'flex' }}>
-              <p>Quantidade</p>
-              <select
-                name= "select"
-                onChange={ (({ target: { value } }) => setQuantity(value)) }
-                value={ quantity }
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+            <div>
+              <img src={ getHdImage(thumbnail) } alt={title} />
+            </div>
+
+            <div>
+              <h3>{ title }</h3>
+              <h3>{ price }</h3>
+              { attributes.map(({ name, value_name }, index) => (
+                <div key={ `ProductDetails-${index}` } style={{ display: 'flex' }}>
+                  <p style={{ margin: '2px' }}>{ `${name} - ` }</p>
+                  <p style={{ margin: '2px' }}>{ value_name }</p>
+                </div>
+              )) }
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex' }}>
+                <h5>Quantidade:</h5>
+                { isSelectOn 
+                    ? 
+                      <select
+                        onChange={ (({ target: { value } }) => setQuantity(value)) }
+                        value={ quantity }
+                      >
+                        {
+                          arrayOfNumbers.map((number, index) => {
+                            return (
+                              <option key={ index }value={ number }>{ `0${number}` }</option>
+                          )})
+                        }
+                        <option value="10">+ 10</option>
+                      </select> : 
+                      <input
+                        onChange={ (({ target: { value } }) => setQuantity(value)) }
+                        type="number"
+                        value={ quantity }
+                      />
+                }
+              </div>
               <button
-                onClick={ () => {
-                  addProduct({
-                    id,
-                    price,
-                    quantity,
-                    thumbnail,
-                    title,
-                  });
-                  history.push("/cart")
-                } }
+                onClick={ handleBtnOnClick }
                 type="button"
               >
                 Comprar agora
               </button>
               <button
-                onClick={ () => {
-                  addProduct({
-                    id,
-                    price,
-                    quantity,
-                    thumbnail,
-                    title,
-                  });
-                  setFilters({ input: 'Computador', select: '' })
-                  history.push("/")
-                } }
+                onClick={ handleBtnOnClick }
                 type="button"
               >
                 Adicionar ao carrinho
@@ -86,7 +105,7 @@ function ProductDetails({ match: { params: { id } } }) {
           </>
         )
     }
-    </>
+    </div>
   );
 }
 
