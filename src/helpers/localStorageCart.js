@@ -23,3 +23,13 @@ export const addProduct = (product) => {
     setItem([...productsCart]);
   }
 }
+
+export const getProductsCart = () => {
+  const productsCart = getItem();
+  return productsCart;
+}
+
+export const getProductsQuantity = () => {
+  const productsCart = getItem();
+  return productsCart.reduce((acc, { quantity }) => acc + quantity, 0);
+}
