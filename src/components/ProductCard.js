@@ -1,27 +1,45 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import getHdImage from '../helpers/hdImage';
+import '../assets/css/ProductCard.css'
 
 function ProductCard({ products }) {
+
+  const getFullPrice = (fullPrice, price) => {
+    if(fullPrice > price) return `R$ ${(fullPrice).toFixed(2)}`
+  }
+
   return(
     <>
-    {
-      products.length > 0 
-        ? products.map((product) => {
-          const { id, price, thumbnail, title } = product;
-          return (
-            <Link key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
-              <div style={ {border: '1px solid black'} }>
+      <div className="productCard-container">
+        { products.length > 0 
+          ? products.map((product) => {
+            const { id, price, thumbnail, title, prices: { prices: fullPrice } } = product;
+            return (
+
+              <Link className="productCard" key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
                 <img src={ getHdImage(thumbnail) } alt={title} />
-                <h3>{ title }</h3>
-                <h3>{ `R$ ${price}` }</h3>
-              </div>
-            </Link>
-          );
+                <div className="product-price">
+                  <h5>{ getFullPrice(fullPrice[0].amount, price) }</h5>
+                  <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+                </div>
+                <div className="product-name">
+                  <h5>{ title }</h5>
+                </div>
+              </Link>
+
+            );
+          }) : <h1>Nenhum produto encontrado</h1>
         }
-      ) : <h1>Nenhum produto encontrado</h1>
-    }
-  </>
+      </div>
+
+      <div className="test">
+        { 
+          products.length > 0 
+          &&  <a href="#header-anchor">Voltar ao início</a>
+        }
+      </div>
+    </>
   );
 }
 
