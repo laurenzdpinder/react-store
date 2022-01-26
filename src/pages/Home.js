@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import MyContext from '../context/MyContext';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import Loading from "../components/Loading";
 
 function Home() {
   const { filters } = useContext(MyContext);
@@ -27,11 +28,11 @@ function Home() {
     }
   },[products])
 
-  const loadingElement = <p>Loading...</p>;
+  // const loadingElement = <p className="loading">Loading...</p>;
 
   return(
     <>
-      { loading ? loadingElement : <ProductCard products={ products } /> }
+      { loading ?  <Loading /> : <ProductCard products={ products } /> }
     </>
   );
 }
