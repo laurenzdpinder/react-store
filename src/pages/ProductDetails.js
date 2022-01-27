@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { getProductFromId } from '../services/api';
 import getHdImage from '../helpers/hdImage';
 import { addProduct, getProductsQuantity } from '../helpers/localStorageCart'
+import '../assets/css/ProductDetails.css';
 
 function ProductDetails({ match: { params: { id } } }) {
   const { setFilters, setProductsQuantity } = useContext(MyContext);
@@ -15,6 +16,7 @@ function ProductDetails({ match: { params: { id } } }) {
 
   const { attributes, price, thumbnail, title } = product;
 
+  // fetch/render product  
   useEffect(() => {
     const fetchProduct = async () => {
       const product = await getProductFromId(id);
@@ -23,15 +25,16 @@ function ProductDetails({ match: { params: { id } } }) {
     fetchProduct();
   }, [id])
 
+  // toggle from select to input
   useEffect(() => {
     if(quantity === "10") {
       setIsSelectOn(false);
     }
   }, [quantity, isSelectOn])
 
+  // set product to localStorage & set filters/products quantity to context & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
     addProduct({ id, price, quantity, thumbnail, title });
-
     setFilters({ input: 'Computador', select: '' });
 
     const productsQuantity = getProductsQuantity();
@@ -41,22 +44,23 @@ function ProductDetails({ match: { params: { id } } }) {
       ? history.push("/") : history.push("/cart")
   }
 
+  // create array of numbers - from 1 to 9
   const arrayOfNumbers = [...Array(10).keys()];
   arrayOfNumbers.shift();
 
   return(
-    <div className="d-flex">
+    <div className="product-details-container">
     {
       Object.keys(product).length > 0
         && (
           <>
-            <div>
+            <div className="product-image">
               <img src={ getHdImage(thumbnail) } alt={title} />
             </div>
 
-            <div>
+            <div className="product-details">
               <h3>{ title }</h3>
-              <h3>{ price }</h3>
+              <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
               { attributes.map(({ name, value_name }, index) => (
                 <div key={ `ProductDetails-${index}` } style={{ display: 'flex' }}>
                   <p style={{ margin: '2px' }}>{ `${name} - ` }</p>
@@ -65,8 +69,9 @@ function ProductDetails({ match: { params: { id } } }) {
               )) }
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex' }}>
+            <div className="product-order">
+            <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+              <div className="product-quantity">
                 <h5>Quantidade:</h5>
                 { isSelectOn 
                     ? 

@@ -1,0 +1,33 @@
+.product-details-container {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+}
+
+.product-image {
+  background-color: rgb(254, 254, 254);
+  display: flex;
+  justify-content: center;
+  width: 500px;
+}
+
+.product-details {
+  border: 1px solid black;
+  background-color: rgb(254, 254, 254);
+  padding: 20px;
+  width: 280px;
+}
+
+.product-order {
+  align-items: center;
+  border: 1px solid black;
+  background-color: rgb(254, 254, 254);
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  width: 280px;
+}
+
+.product-quantity {
+  display: flex;
+}
