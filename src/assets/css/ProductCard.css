@@ -1,10 +1,11 @@
-.productCard-container {
+.product-card-container {
+  /* border: 1px solid black; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.productCard {
+.product-card {
   align-items: center;
   background-color: rgb(254, 254, 254);
   display: flex;
@@ -15,13 +16,13 @@
   width: 280px;
 }
 
-.productCard:hover {
-  box-shadow: 0 0 10px rgb(62, 121, 208);
+.product-card:hover {
+  box-shadow: 0 0 20px rgb(62, 121, 208);
   margin: 0 10px 20px 10px;
   transition: 0.2s;
 }
 
-.productCard img {
+.product-card img {
   border-bottom: 1px solid black;
   height: 200px;
   margin: 10px;
@@ -58,12 +59,13 @@
   width: 100%;
 }
 
-.test {
+.product-cart-bottom {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  margin: 50px;
 }
 
-.test a {
+.product-cart-bottom a {
+  color: rgb(51, 51, 51);
   text-decoration: none;
 }

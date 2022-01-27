@@ -7,6 +7,7 @@ import '../assets/css/Header.css';
 
 function Header() {
   const { productsQuantity, setFilters } = useContext(MyContext);
+
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
 
@@ -14,21 +15,36 @@ function Header() {
 
   const { input, select } = filtersOnChange;
 
+  // fetch & render select categories
   useEffect(() => {
     const fetchCategories = async () => {
       const categoriesFromAPI = await getCategories();
       setCategories(categoriesFromAPI);
     }
     fetchCategories();
-    // console.log(document.querySelector('input').value);
   }, []);
 
+  // clear input & select values after click on ProductDetails buttons ('Comprar agora', 'Adicionar ao carrinho' )
+  useEffect(() => {
+    setFiltersOnChange({ input: '', select: '' })
+  },[productsQuantity])
+
+  // change input and select values
   const handleFilterOnChange = ({ target: { name, value } }) => {
     setFiltersOnChange((prev) => ({ ...prev, [name]: value }))
   };
 
+  // clear input and select values & set filters to context & redirect Home page
+  const handleLogoBtnOnClick = () => {
+    setFiltersOnChange({ input: '', select: '' })
+    setFilters({ input: 'Computador', select: '' })
+    history.push("/");
+  }
+  
+  // enable search button
   const isDelBtnDisabled = () => input || select;
-
+  
+  // set filters to context & redirect Home page
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
     setFilters(filtersOnChange);
@@ -36,73 +52,78 @@ function Header() {
   }
 
   return(
-    <div 
-      className="header">
-      <Link className="logo" to="/">
-        <h1>React</h1>
-        <h1>St</h1>
-        <img src={ react_hooks_icon } alt="react hooks icon" style={ { width: '60px' } }/>
-        <h1>re</h1>
-      </Link>
-
-      <form className="search-bar">
-        <select
-          name= "select"
-          onChange={ handleFilterOnChange }
-          value={ select }
-        >
-          <option value="">Todos</option>
-          { categories.map(({ id, name }) => (
-            <option
-              key={ `Header-${id}` }
-              value={ id }
-            >
-              { name }
-            </option>
-          )) }
-        </select>
-
-        <input
-          name= "input"
-          onChange={ handleFilterOnChange }
-          placeholder="Busque aqui seu produto"
-          type="text"
-          value={ input }
-        />
-
+    <>
+      <div id="header-anchor" />
+      <div className="header-container">
         <button 
-          onClick={
-            () => setFiltersOnChange((prev) => ({ ...prev, input: '' }))
-          }
+          className="logo" 
+          onClick={handleLogoBtnOnClick}
           type="button" 
         >
-          X
+          <h1>React St</h1>
+          <img src={ react_hooks_icon } alt="react hooks icon" />
+          <h1>re</h1>
         </button>
 
-        <button
-          className="search-button"
-          disabled={ !isDelBtnDisabled()  }
-          onClick={ handleSearchBtnOnClick }
-          type="submit"
-        >
-          <i className="fas fa-search"></i>
-        </button>
-      </form>
-      
-      <div>
-        <p>Olá, faça o seu login</p>
-        <p>ou cadastre-se </p>
-      </div>
+        <form className="search-bar">
+          <select
+            name= "select"
+            onChange={ handleFilterOnChange }
+            value={ select }
+          >
+            <option value="">Todos</option>
+            { categories.map(({ id, name }) => (
+              <option
+                key={ `Header-${id}` }
+                value={ id }
+              >
+                { name }
+              </option>
+            )) }
+          </select>
 
-      <Link to="/cart" className="d-flex">
-        <p>{ productsQuantity }</p>
-        <button 
-          type="button"
-        >
+          <input
+            name= "input"
+            onChange={ handleFilterOnChange }
+            placeholder="Busque aqui seu produto"
+            type="text"
+            value={ input }
+          />
+
+          <button 
+            onClick={
+              // clear input value
+              () => setFiltersOnChange((prev) => ({ ...prev, input: '' }))
+            }
+            type="button" 
+          >
+            X
+          </button>
+
+          <button
+            className="search-button"
+            disabled={ !isDelBtnDisabled()  }
+            onClick={ handleSearchBtnOnClick }
+            type="submit"
+          >
+            <i className="fas fa-search"></i>
+          </button>
+        </form>
+        
+        <div className="user-access">
+          <h5>olá, faça seu login</h5>
+          <div className="sing-up">
+            <h5>ou cadastre-se</h5>
+            <p>v</p>
+          </div>
+        </div>
+
+        <Link className="cart-icon" to="/cart">
+          <p>{ productsQuantity }</p>
           <i className="fas fa-shopping-cart"></i>
-        </button>
-      </Link>
-    </div>
+        </Link>
+      </div>
+    </>
   );
 }
 

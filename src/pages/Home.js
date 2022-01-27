@@ -9,6 +9,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
+  // fetch produts & render Loading component & render ProductCard component(not found answer)
   useEffect(()=> {
     const { input, select } = filters;
     const fetchProducts = async () => {
@@ -22,13 +23,12 @@ function Home() {
     fetchProducts();
   }, [filters])
 
+  // render ProductCard component(cards answer)
   useEffect(()=> {
     if(products.length > 0) {
       setLoading(false);
     }
   },[products])
-
-  // const loadingElement = <p className="loading">Loading...</p>;
 
   return(
     <>

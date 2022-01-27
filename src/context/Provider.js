@@ -6,6 +6,7 @@ function Provider({ children }) {
   const [filters, setFilters] = useState({ input: 'Computador', select: '' });
   const [productsQuantity, setProductsQuantity] = useState(0);
 
+  // get products quantity from localStorage & set it to context
   useEffect(() => {
     const productsQuantity = getProductsQuantity();
     setProductsQuantity(productsQuantity)

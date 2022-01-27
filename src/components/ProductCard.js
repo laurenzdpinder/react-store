@@ -11,13 +11,13 @@ function ProductCard({ products }) {
 
   return(
     <>
-      <div className="productCard-container">
+      <div className="product-card-container">
         { products.length > 0 
           ? products.map((product) => {
             const { id, price, thumbnail, title, prices: { prices: fullPrice } } = product;
             return (
 
-              <Link className="productCard" key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
+              <Link className="product-card" key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
                 <img src={ getHdImage(thumbnail) } alt={title} />
                 <div className="product-price">
                   <h5>{ getFullPrice(fullPrice[0].amount, price) }</h5>
@@ -33,7 +33,7 @@ function ProductCard({ products }) {
         }
       </div>
 
-      <div className="test">
+      <div className="product-cart-bottom">
         { 
           products.length > 0 
           &&  <a href="#header-anchor">Voltar ao início</a>
