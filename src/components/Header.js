@@ -3,6 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { getCategories } from '../services/api';
 import react_hooks_icon from '../assets/images/react_hooks_icon.png';
+import { BiUserCircle, BiSearch } from 'react-icons/bi';
+import { BsCart } from 'react-icons/bs';
 import '../assets/css/Header.css';
 
 function Header() {
@@ -106,21 +108,24 @@ function Header() {
             onClick={ handleSearchBtnOnClick }
             type="submit"
           >
-            <i className="fas fa-search"></i>
+            <h3><BiSearch /></h3>
           </button>
         </form>
         
-        <div className="user-access">
-          <h5>olá, faça seu login</h5>
-          <div className="sing-up">
-            <h5>ou cadastre-se</h5>
-            <p>v</p>
+        <div className="user-access-container">
+          <h3><BiUserCircle /></h3>
+          <div className="user-access">
+            <h5>olá, faça seu login</h5>
+            <div className="sing-up">
+              <h5>ou cadastre-se</h5>
+              <p>v</p>
+            </div>
           </div>
         </div>
 
         <Link className="cart-icon" to="/cart">
           <p>{ productsQuantity }</p>
-          <i className="fas fa-shopping-cart"></i>
+          <h3><BsCart /></h3>
         </Link>
       </div>
     </>
