@@ -5,8 +5,9 @@ import '../assets/css/ProductCard.css'
 
 function ProductCard({ products }) {
 
-  const getFullPrice = (fullPrice, price) => {
-    if(fullPrice > price) return `R$ ${(fullPrice).toFixed(2)}`
+  // render original price if product has a discount
+  const getOriginalPrice = (originalPrice, price) => {
+    if(originalPrice > price) return `R$ ${(originalPrice).toFixed(2)}`
   }
 
   return(
@@ -14,13 +15,13 @@ function ProductCard({ products }) {
       <div className="product-card-container">
         { products.length > 0 
           ? products.map((product) => {
-            const { id, price, thumbnail, title, prices: { prices: fullPrice } } = product;
+            const { id, price, thumbnail, title, prices: { prices: originalPrice } } = product;
             return (
 
               <Link className="product-card" key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
                 <img src={ getHdImage(thumbnail) } alt={title} />
                 <div className="product-price">
-                  <h5>{ getFullPrice(fullPrice[0].amount, price) }</h5>
+                  <h5>{ getOriginalPrice(originalPrice[0].amount, price) }</h5>
                   <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
                 </div>
                 <div className="product-name">
