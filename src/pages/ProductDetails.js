@@ -8,10 +8,11 @@ import { addProduct, getProductsQuantity } from '../helpers/localStorageCart'
 import '../assets/css/ProductDetails.css';
 
 function ProductDetails({ match: { params: { id } } }) {
+
   const { setFilters, setProductsQuantity } = useContext(MyContext);
 
   const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
   const [isSelectOn, setIsSelectOn] = useState(true);
 
   let history = useHistory();
@@ -22,19 +23,17 @@ function ProductDetails({ match: { params: { id } } }) {
   useEffect(() => {
     const fetchProduct = async () => {
       const product = await getProductFromId(id);
-      setProduct(product)
+      setProduct(product);
     }
     fetchProduct();
-  }, [id])
-
-  console.log(product);
+  }, [id]);
 
   // toggle from select to input
   useEffect(() => {
-    if(quantity === "10") {
+    if(quantity === "6") {
       setIsSelectOn(false);
     }
-  }, [quantity, isSelectOn])
+  }, [quantity, isSelectOn]);
 
   // set product to localStorage & set filters/products quantity to Context & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
@@ -45,26 +44,34 @@ function ProductDetails({ match: { params: { id } } }) {
     setProductsQuantity(productsQuantity);
 
     target.innerText === 'Adicionar ao carrinho' 
-      ? history.push("/") : history.push("/cart")
-  }
+      ? history.push("/") : history.push("/cart");
+  };
 
-  // create array of numbers - from 1 to 9
-  const arrayOfNumbers = [...Array(10).keys()];
+  // create array of numbers - from 1 to 5
+  const arrayOfNumbers = [...Array(6).keys()];
   arrayOfNumbers.shift();
 
   return(
-    <div className="product-details-container">
+    <div className="product-details-page">
     {
       Object.keys(product).length > 0
         ? (
-            <>
+            <div className="product-details-container">
               <div className="product-details-image">
                 <img src={ getHdImage(thumbnail) } alt={title} />
               </div>
 
               <div className="product-details">
                 <h3>{ title }</h3>
-                <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+                  <div>
+                    {
+                      original_price && (
+                        <h5>{ `R$ ${(original_price).toFixed(2)}` }</h5>
+                      )
+                    }
+                    <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+                  </div>
+
                 { attributes.map(({ name, value_name }, index) => (
                   <div key={ `ProductDetails-${index}` } style={{ display: 'flex' }}>
                     <p style={{ margin: '2px' }}>{ `${name} - ` }</p>
@@ -74,6 +81,11 @@ function ProductDetails({ match: { params: { id } } }) {
               </div>
 
               <div className="product-details-order">
+                {
+                  original_price && (
+                    <h5>{ `R$ ${(original_price).toFixed(2)}` }</h5>
+                  )
+                }
                 <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
 
                 <h4>{ `${available_quantity} unidades` }</h4>
@@ -92,7 +104,7 @@ function ProductDetails({ match: { params: { id } } }) {
                                 <option key={ index }value={ number }>{ `0${number}` }</option>
                             )})
                           }
-                          <option value="10">+ 10</option>
+                          <option value="6">+ 6</option>
                         </select> : 
                         <input
                           onChange={ (({ target: { value } }) => setQuantity(value)) }
@@ -117,7 +129,7 @@ function ProductDetails({ match: { params: { id } } }) {
                   </button>
                 </div>
               </div>
-            </>
+            </div>
           ) : <Loading />
     }
     </div>
