@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { getCategories } from '../services/api';
-import react_hooks_icon from '../assets/images/react_hooks_icon.png';
 import { BiUserCircle, BiSearch } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
+import { FaReact } from 'react-icons/fa';
 import '../assets/css/Header.css';
 
 function Header() {
+
   const { productsQuantity, setFilters } = useContext(MyContext);
 
   const [categories, setCategories] = useState([{}]);
@@ -26,32 +27,34 @@ function Header() {
     fetchCategories();
   }, []);
 
-  // clear input & select values after click on ProductDetails buttons ('Comprar agora', 'Adicionar ao carrinho' )
-  useEffect(() => {
-    setFiltersOnChange({ input: '', select: '' })
-  },[productsQuantity])
-
   // change input and select values
   const handleFilterOnChange = ({ target: { name, value } }) => {
-    setFiltersOnChange((prev) => ({ ...prev, [name]: value }))
+    setFiltersOnChange((prev) => ({ ...prev, [name]: value }));
   };
 
-  // clear input and select values & set filters to context & redirect Home page
+  // clear input & select values after click on ProductDetails buttons
+  useEffect(() => {
+    setFiltersOnChange({ input: '', select: '' });
+  },[productsQuantity]);
+
+  // clear input and select values & set filters to Context & redirect Home page
   const handleLogoBtnOnClick = () => {
-    setFiltersOnChange({ input: '', select: '' })
-    setFilters({ input: 'Computador', select: '' })
+    setFiltersOnChange({ input: '', select: '' });
+
+    setFilters({ input: 'Computador', select: '' });
     history.push("/");
-  }
+  };
   
   // enable search button
   const isDelBtnDisabled = () => input || select;
   
-  // set filters to context & redirect Home page
+  // set filters to Context & redirect Home page
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
+
     setFilters(filtersOnChange);
     history.push("/");
-  }
+  };
 
   return(
     <>
@@ -63,7 +66,7 @@ function Header() {
           type="button" 
         >
           <h1>React St</h1>
-          <img src={ react_hooks_icon } alt="react hooks icon" />
+          <p><FaReact /></p> 
           <h1>re</h1>
         </button>
 
@@ -111,22 +114,24 @@ function Header() {
             <h3><BiSearch /></h3>
           </button>
         </form>
-        
-        <div className="user-access-container">
-          <h3><BiUserCircle /></h3>
-          <div className="user-access">
-            <h5>olá, faça seu login</h5>
-            <div className="sing-up">
-              <h5>ou cadastre-se</h5>
-              <p>v</p>
-            </div>
-          </div>
-        </div>
 
-        <Link className="cart-icon" to="/cart">
-          <p>{ productsQuantity }</p>
-          <h3><BsCart /></h3>
-        </Link>
+        <div className="user-cart">
+          <div className="user-access-container">
+              <h3><BiUserCircle /></h3>
+              <div className="user-access">
+                <h5>olá, faça seu login</h5>
+                <div className="sing-up">
+                  <h5>ou cadastre-se</h5>
+                  <p>v</p>
+                </div>
+              </div>
+            </div>
+
+            <Link className="cart-icon" to="/cart">
+              <p>{ productsQuantity }</p>
+              <h3><BsCart /></h3>
+            </Link>
+        </div>
       </div>
     </>
   );
