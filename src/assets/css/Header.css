@@ -1,39 +1,52 @@
 .header-container {
-  align-items: center;
   background-color: rgb(62, 121, 208);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 50px;
   padding: 25px;
+  width: 100%;
 }
 
 .header-container h1 {
-  /* border: 1px solid black; */
   font-size: 38px;
 }
 
 .logo {
   align-items: center;
   background-color: rgb(62, 121, 208);
-  /* border: 1px solid black; */
-  border: 0;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 10px;
   color: rgb(254, 254, 254);
   cursor: pointer;
   display: flex;
+  justify-content: center;
   padding: 10px;
+  margin: 0 20px;
   text-decoration: none;
 }
 
-.logo img {
-  width: 60px;
+.logo:hover {
+  box-shadow: 0 0 20px rgb(9, 26, 82);
+}
+
+.logo h1:nth-child(1) {
+  width: 160px;
+}
+
+.logo p {
+  padding-top: 10px;
+  font-size: 36px;
+}
+
+.logo:hover p{
+  color: rgb(97, 219, 251);
 }
 
 .search-bar {
-  /* border: 1px solid black; */
   display: flex;
   flex-basis: 50%;
   padding: 10px;
+  margin: 0 20px;
 }
 
 .search-bar button {
@@ -54,6 +67,7 @@
   background-color: rgb(254, 254, 254);
   border: 0;
   border-radius: 10px 0 0 10px;
+  width: auto;
   padding: 10px;
 }
 
@@ -66,27 +80,31 @@
   font-size: 18px;
 }
 
+.user-cart {
+  display: flex;
+}
+
 .user-access-container {
-  /* border: solid 1px black; */
   color:rgb(254, 254, 254);
   cursor: pointer;
   display: flex;
+  justify-content:  center;
   padding: 10px;
+  width: 220px;
 }
 
 .user-access-container h3 {
   align-items: center;
-  /* border: solid 1px black; */
   display: flex;
   font-size: 42px;
   margin: 0 5px;
 }
 
 .user-access {
-  /* border: solid 1px black; */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 150px;
 }
 
 .sing-up {
@@ -103,27 +121,34 @@
 }
 
 .cart-icon {
-  /* border: solid 1px black; */
   color: rgb(254, 254, 254);
   display: flex;
+  margin: 0 20px;
   padding: 10px;
   text-decoration: none;
 }
 
+.cart-icon:hover h3 {
+  transform: scale(1.2);
+}
+
+.cart-icon:hover  p {
+  color: rgb(97, 219, 251);
+  transform: scale(1.2);
+}
+
 .cart-icon p {
   align-items: center;
-  /* border: solid 3px red; */
   color: rgb(254, 254, 254);
   display: flex;
-  height: 40px;
+  height: 55px;
   justify-content:  center;
   position: absolute;
   width: 46px;
 }
 
 .cart-icon h3 {
-  /* border: solid 1px black; */
+  align-items: center;
   display: flex;
   font-size: 44px;
-  justify-content: center;
 }
