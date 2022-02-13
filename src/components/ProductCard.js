@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 import { Link } from 'react-router-dom';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/ProductCard.css'
 
 function ProductCard({ products }) {
+
+  const { filters: { input } } = useContext(MyContext);
 
   // render original price if product has a discount
   const getOriginalPrice = (originalPrice, price) => {
@@ -18,7 +21,11 @@ function ProductCard({ products }) {
             const { id, price, thumbnail, title, prices: { prices: originalPrice } } = product;
             return (
 
-              <Link className="product-card" key={ `ProductCard-${id}` } to={ `/productDetails/${id}` }>
+              <Link
+                className="product-card"
+                key={ `ProductCard-${id}` }
+                to={ `/productDetails/${id}` }
+              >
                 <img src={ getHdImage(thumbnail) } alt={title} />
                 <div className="product-price">
                   <h5>{ getOriginalPrice(originalPrice[0].amount, price) }</h5>
@@ -30,8 +37,19 @@ function ProductCard({ products }) {
               </Link>
 
             );
-          }) : <h1>Nenhum produto encontrado</h1>
-        }
+          }) : (
+            <div className="product-not-found">
+              <h2>{ `Nenhum resultado encontrado para "${input}"` }</h2>
+              <div>
+                <ul>
+                  <li>Verifique a ortografia da palavra.</li>
+                  <li>Utilize palavras ou termos mais genéricos.</li>
+                  <li>Tente outro produto ou navegue pelos departamentos para encontrar o que você precisa.</li>
+                </ul>
+              </div>
+            </div>
+          )
+      }
       </div>
 
       <div className="product-cart-bottom">
