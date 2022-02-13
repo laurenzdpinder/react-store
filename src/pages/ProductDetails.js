@@ -62,8 +62,8 @@ function ProductDetails({ match: { params: { id } } }) {
               </div>
 
               <div className="product-details">
-                <h3>{ title }</h3>
-                  <div>
+                <h2>{ title }</h2>
+                  <div className="product-details-price">
                     {
                       original_price && (
                         <h5>{ `R$ ${(original_price).toFixed(2)}` }</h5>
@@ -73,25 +73,29 @@ function ProductDetails({ match: { params: { id } } }) {
                   </div>
 
                 { attributes.map(({ name, value_name }, index) => (
-                  <div key={ `ProductDetails-${index}` } style={{ display: 'flex' }}>
-                    <p style={{ margin: '2px' }}>{ `${name} - ` }</p>
-                    <p style={{ margin: '2px' }}>{ value_name }</p>
+                  <div
+                    className="product-info" 
+                    key={ `ProductDetails-${index}` }
+                  >
+                    <p>{ `${name} - ` }</p>
+                    <p>{ value_name }</p>
                   </div>
                 )) }
               </div>
 
               <div className="product-details-order">
-                {
-                  original_price && (
-                    <h5>{ `R$ ${(original_price).toFixed(2)}` }</h5>
-                  )
-                }
+                <div className="order-original-price">
+                  {
+                    original_price && (
+                      <h5>{ `R$ ${(original_price).toFixed(2)}` }</h5>
+                    )
+                  }
+                </div>
                 <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
 
-                <h4>{ `${available_quantity} unidades` }</h4>
-
+                <h4>{ `${available_quantity} unidades disponíveis` }</h4>
                 <div className="product-details-quantity">
-                  <h5>Quantidade:</h5>
+                  <h4>Quantidade:</h4>
                   { isSelectOn 
                       ? 
                         <select
@@ -107,6 +111,7 @@ function ProductDetails({ match: { params: { id } } }) {
                           <option value="6">+ 6</option>
                         </select> : 
                         <input
+                          autoFocus
                           onChange={ (({ target: { value } }) => setQuantity(value)) }
                           type="number"
                           value={ quantity }
