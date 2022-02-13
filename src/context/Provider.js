@@ -3,6 +3,7 @@ import { getProductsQuantity } from '../helpers/localStorageCart';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
+
   const [filters, setFilters] = useState({ input: 'Computador', select: '' });
   const [productsQuantity, setProductsQuantity] = useState(0);
 
