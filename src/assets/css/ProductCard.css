@@ -1,5 +1,4 @@
 .product-card-container {
-  /* border: 2px solid black; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -54,12 +53,12 @@
 }
 
 .product-name {
-  /* border: 1px solid black; */
   color: rgb(102, 102, 102);
   height: 120px;
   padding: 10px;
   text-align: center;
   width: 100%;
+  word-wrap: break-word;
 }
 
 .product-cart-bottom {
