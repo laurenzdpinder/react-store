@@ -88,7 +88,7 @@ function Header() {
           </select>
 
           <input
-            autocomplete="off"
+            autoComplete="off"
             name= "input"
             onChange={ handleFilterOnChange }
             placeholder="Busque aqui seu produto"
