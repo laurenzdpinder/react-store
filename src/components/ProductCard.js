@@ -17,7 +17,7 @@ function ProductCard({ products }) {
     <>
       <div className="product-card-container">
         { products.length > 0 
-          ? products.map((product) => {
+          ? products.filter(({ price }) => price).map((product) => {
             const { id, price, thumbnail, title, prices: { prices: originalPrice } } = product;
             return (
 
