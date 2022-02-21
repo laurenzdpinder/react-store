@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import MyContext from '../context/MyContext';
-import { getCategories } from '../services/api';
 import { BiUserCircle, BiSearch } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
 import { FaReact } from 'react-icons/fa';
+import { getCategories } from '../services/api';
+import MyContext from '../context/MyContext';
 import '../assets/css/Header.css';
 
 function Header() {
-
   const { productsQuantity, setFilters } = useContext(MyContext);
 
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
 
-  let history = useHistory();
+  const history = useHistory();
 
   const { input, select } = filtersOnChange;
 
@@ -23,7 +22,7 @@ function Header() {
     const fetchCategories = async () => {
       const categoriesFromAPI = await getCategories();
       setCategories(categoriesFromAPI);
-    }
+    };
     fetchCategories();
   }, []);
 
@@ -35,52 +34,52 @@ function Header() {
   // clear input & select values after click on ProductDetails buttons
   useEffect(() => {
     setFiltersOnChange({ input: '', select: '' });
-  },[productsQuantity]);
+  }, [productsQuantity]);
 
   // clear input and select values & set filters to Context & redirect Home page
   const handleLogoBtnOnClick = () => {
     setFiltersOnChange({ input: '', select: '' });
 
     setFilters({ input: 'Computador', select: '' });
-    history.push("/");
+    history.push('/');
   };
-  
+
   // enable search button
   const isDelBtnDisabled = () => input || select;
-  
+
   // set filters to Context & redirect Home page
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
 
     setFilters(filtersOnChange);
-    history.push("/");
+    history.push('/');
   };
 
-  return(
+  return (
     <>
       <div id="header-anchor" />
       <div className="header-container">
-        <button 
-          className="logo" 
+        <button
+          className="logo"
           onClick={handleLogoBtnOnClick}
-          type="button" 
+          type="button"
         >
           <h1>React St</h1>
-          <p><FaReact /></p> 
+          <p><FaReact /></p>
           <h1>re</h1>
         </button>
 
         <form className="search-bar">
           <select
-            name= "select"
-            onChange={ handleFilterOnChange }
-            value={ select }
+            name="select"
+            onChange={handleFilterOnChange}
+            value={select}
           >
             <option value="">Todos</option>
             { categories.map(({ id, name }) => (
               <option
-                key={ `Header-${id}` }
-                value={ id }
+                key={`Header-${id}`}
+                value={id}
               >
                 { name }
               </option>
@@ -89,27 +88,27 @@ function Header() {
 
           <input
             autoComplete="off"
-            name= "input"
-            onChange={ handleFilterOnChange }
+            name="input"
+            onChange={handleFilterOnChange}
             placeholder="Busque aqui seu produto"
             type="text"
-            value={ input }
+            value={input}
           />
 
-          <button 
+          <button
             onClick={
               // clear input value
               () => setFiltersOnChange((prev) => ({ ...prev, input: '' }))
             }
-            type="button" 
+            type="button"
           >
             X
           </button>
 
           <button
             className="search-button"
-            disabled={ !isDelBtnDisabled()  }
-            onClick={ handleSearchBtnOnClick }
+            disabled={!isDelBtnDisabled()}
+            onClick={handleSearchBtnOnClick}
             type="submit"
           >
             <h3><BiSearch /></h3>
@@ -118,20 +117,20 @@ function Header() {
 
         <div className="user-cart">
           <div className="user-access-container">
-              <h3><BiUserCircle /></h3>
-              <div className="user-access">
-                <h5>olá, faça seu login</h5>
-                <div className="sing-up">
-                  <h5>ou cadastre-se</h5>
-                  <p>v</p>
-                </div>
+            <h3><BiUserCircle /></h3>
+            <div className="user-access">
+              <h5>olá, faça seu login</h5>
+              <div className="sing-up">
+                <h5>ou cadastre-se</h5>
+                <p>v</p>
               </div>
             </div>
+          </div>
 
-            <Link className="cart-icon" to="/cart">
-              <p>{ productsQuantity }</p>
-              <h3><BsCart /></h3>
-            </Link>
+          <Link className="cart-icon" to="/cart">
+            <p>{ productsQuantity }</p>
+            <h3><BsCart /></h3>
+          </Link>
         </div>
       </div>
     </>
