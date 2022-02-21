@@ -45,18 +45,20 @@ function ProductDetails({ match: { params: { id } } }) {
   // set product to localStorage
   // set filters/products quantity to Context & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
-    addProduct({
-      id, originalPrice, price, quantity, thumbnail, title,
-    });
-    setFilters({ input: 'Computador', select: '' });
+    if (quantity > 0) {
+      addProduct({
+        id, originalPrice, price, quantity, thumbnail, title,
+      });
+      setFilters({ input: 'Computador', select: '' });
 
-    const productsQuantity = getProductsQuantity();
-    setProductsQuantity(productsQuantity);
+      const productsQuantity = getProductsQuantity();
+      setProductsQuantity(productsQuantity);
 
-    if (target.innerText === 'Adicionar ao carrinho') {
-      history.push('/');
-    } else {
-      history.push('/cart');
+      if (target.innerText === 'Adicionar ao carrinho') {
+        history.push('/');
+      } else {
+        history.push('/cart');
+      }
     }
   };
 
@@ -94,64 +96,66 @@ function ProductDetails({ match: { params: { id } } }) {
               )) }
             </div>
 
-            <div className="product-details-order">
-              <div className="order-original-price">
-                { originalPrice && originalPrice !== price
-                  && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5> }
-              </div>
-              <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+            <form onSubmit={handleBtnOnClick}>
+              <div className="product-details-order">
+                <div className="order-original-price">
+                  { originalPrice && originalPrice !== price
+                    && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5> }
+                </div>
+                <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
 
-              {
-                availableQuantity > 1
-                  ? <h4>{ `${availableQuantity} unidades disponíveis` }</h4>
-                  : <h4>Última unidade disponível</h4>
-              }
-              <div className="product-details-quantity">
-                <h4>Quantidade:</h4>
-                { isSelectOn
-                  ? (
-                    <select
-                      // set select value
-                      onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                      value={quantity}
-                    >
-                      {
-                        arrayOfNumbers.map((number) => (
-                          <option key={`option${number}`} value={number}>
-                            { `0${number}` }
-                          </option>
-                        ))
-                      }
-                      <option value="6">+ 6</option>
-                    </select>
-                  )
-                  : (
-                    <input
-                      // eslint-disable-next-line jsx-a11y/no-autofocus
-                      autoFocus
-                      // set input value
-                      onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                      type="number"
-                      value={quantity}
-                    />
-                  )}
-              </div>
+                {
+                  availableQuantity > 1
+                    ? <h4>{ `${availableQuantity} unidades disponíveis` }</h4>
+                    : <h4>Última unidade disponível</h4>
+                }
+                <div className="product-details-quantity">
+                  <h4>Quantidade:</h4>
+                  { isSelectOn
+                    ? (
+                      <select
+                          // set select value
+                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                        value={quantity}
+                      >
+                        {
+                            arrayOfNumbers.map((number) => (
+                              <option key={`option${number}`} value={number}>
+                                { `0${number}` }
+                              </option>
+                            ))
+                          }
+                        <option value="6">+ 6</option>
+                      </select>
+                    )
+                    : (
+                      <input
+                          // eslint-disable-next-line jsx-a11y/no-autofocus
+                        autoFocus
+                          // set input value
+                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                        type="number"
+                        value={quantity > 0 ? quantity : ''}
+                      />
+                    ) }
+                </div>
 
-              <div className="product-details-buttons">
-                <button
-                  onClick={handleBtnOnClick}
-                  type="button"
-                >
-                  Comprar agora
-                </button>
-                <button
-                  onClick={handleBtnOnClick}
-                  type="button"
-                >
-                  Adicionar ao carrinho
-                </button>
+                <div className="product-details-buttons">
+                  <button
+                    onClick={handleBtnOnClick}
+                    type="button"
+                  >
+                    Comprar agora
+                  </button>
+                  <button
+                    onClick={handleBtnOnClick}
+                    type="button"
+                  >
+                    Adicionar ao carrinho
+                  </button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         ) : <Loading />
     }
