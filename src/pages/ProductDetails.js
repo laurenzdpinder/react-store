@@ -9,7 +9,7 @@ import { addProduct, getProductsQuantity } from '../helpers/localStorageCart';
 import '../assets/css/ProductDetails.css';
 
 function ProductDetails({ match: { params: { id } } }) {
-  const { setFilters, setProductsQuantity } = useContext(MyContext);
+  const { setFilters, setOffset, setProductsQuantity } = useContext(MyContext);
 
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -42,8 +42,8 @@ function ProductDetails({ match: { params: { id } } }) {
     }
   }, [quantity, isSelectOn]);
 
-  // set product to localStorage
-  // set filters/products quantity to Context & redirect Home or Cart page
+  // set product to localStorage & set filters/products quantity to Context
+  // set 0 to offset & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
     if (quantity > 0) {
       addProduct({
@@ -53,6 +53,8 @@ function ProductDetails({ match: { params: { id } } }) {
 
       const productsQuantity = getProductsQuantity();
       setProductsQuantity(productsQuantity);
+
+      setOffset(0);
 
       if (target.innerText === 'Adicionar ao carrinho') {
         history.push('/');

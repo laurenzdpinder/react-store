@@ -8,7 +8,7 @@ import MyContext from '../context/MyContext';
 import '../assets/css/Header.css';
 
 function Header() {
-  const { productsQuantity, setFilters } = useContext(MyContext);
+  const { productsQuantity, setFilters, setOffset } = useContext(MyContext);
 
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
@@ -36,22 +36,23 @@ function Header() {
     setFiltersOnChange({ input: '', select: '' });
   }, [productsQuantity]);
 
-  // clear input and select values & set filters to Context & redirect Home page
+  // clear input and select values & set filters to Context
+  // set 0 to offset & redirect Home page
   const handleLogoBtnOnClick = () => {
     setFiltersOnChange({ input: '', select: '' });
-
     setFilters({ input: 'Computador', select: '' });
+    setOffset(0);
     history.push('/');
   };
 
   // enable search button
   const isDelBtnDisabled = () => input || select;
 
-  // set filters to Context & redirect Home page
+  // set filters to Context & redirect Home page & set 0 to offset
   const handleSearchBtnOnClick = (e) => {
     e.preventDefault();
-
     setFilters(filtersOnChange);
+    setOffset(0);
     history.push('/');
   };
 

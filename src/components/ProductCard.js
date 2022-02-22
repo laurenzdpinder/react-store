@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import MyContext from '../context/MyContext';
+import Pagination from './Pagination';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/ProductCard.css';
 
-function ProductCard({ products }) {
+function ProductCard({ paging, products }) {
   const { filters: { input } } = useContext(MyContext);
 
   // render original price if product has a discount
@@ -60,17 +61,24 @@ function ProductCard({ products }) {
           )}
       </div>
 
-      <div className="product-cart-bottom">
-        {
-          products.length > 0
-          && <a href="#header-anchor">Voltar ao início</a>
-        }
-      </div>
+      {
+        products.length > 0
+        && (
+          <>
+            <Pagination paging={paging} />
+
+            <div className="product-cart-bottom">
+              <a href="#header-anchor">Voltar ao início</a>
+            </div>
+          </>
+        )
+      }
     </>
   );
 }
 
 ProductCard.propTypes = {
+  paging: PropTypes.objectOf(PropTypes.number).isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

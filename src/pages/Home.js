@@ -7,30 +7,37 @@ import '../assets/css/Home.css';
 
 function Home() {
   const { filters } = useContext(MyContext);
+  const { offset } = useContext(MyContext);
 
   const [loading, setLoading] = useState(true);
+  const [paging, setPaging] = useState({});
   const [products, setProducts] = useState([]);
 
-  // fetch produts & render Loading component & render ProductCard component
+  // fetch produts & render Loading component || render ProductCard component & setPaging
   useEffect(() => {
     const { input, select } = filters;
+
     const fetchProducts = async () => {
       setLoading(true);
 
-      const productsFromAPI = await getProductsFromCategoryAndQuery(select, input);
-      setProducts(productsFromAPI);
+      const productsFromAPI = await getProductsFromCategoryAndQuery(select, input, offset);
+      setProducts(productsFromAPI.results);
+      setPaging(productsFromAPI.paging);
 
       setLoading(false);
     };
     fetchProducts();
-  }, [filters]);
+  }, [filters, offset]);
 
   return (
     loading
       ? <Loading />
       : (
         <div className="home-container">
-          <ProductCard products={products} />
+          <ProductCard
+            paging={paging}
+            products={products}
+          />
         </div>
       )
   );

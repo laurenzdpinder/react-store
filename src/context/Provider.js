@@ -5,6 +5,7 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [filters, setFilters] = useState({ input: 'Computador', select: '' });
+  const [offset, setOffset] = useState(0);
   const [productsQuantity, setProductsQuantity] = useState(0);
 
   // get products quantity from localStorage & set it to context
@@ -17,6 +18,8 @@ function Provider({ children }) {
   const context = {
     filters,
     setFilters,
+    offset,
+    setOffset,
     productsQuantity,
     setProductsQuantity,
   };

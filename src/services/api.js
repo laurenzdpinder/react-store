@@ -5,11 +5,11 @@ export const getCategories = async () => {
   return categories;
 };
 
-export const getProductsFromCategoryAndQuery = async (categoryId, query) => {
-  const URL = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}&q=${query}&limit=20`;
-  const { results } = await fetch(URL)
+export const getProductsFromCategoryAndQuery = async (categoryId, query, offset) => {
+  const URL = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}&q=${query}&offset=${offset}&limit=20`;
+  const data = await fetch(URL)
     .then((response) => response.json());
-  return results;
+  return data;
 };
 
 export const getProductFromId = async (id) => {
