@@ -98,66 +98,64 @@ function ProductDetails({ match: { params: { id } } }) {
               )) }
             </div>
 
-            <form onSubmit={handleBtnOnClick}>
-              <div className="product-details-order">
-                <div className="order-original-price">
-                  { originalPrice && originalPrice !== price
-                    && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5> }
-                </div>
-                <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
-
-                {
-                  availableQuantity > 1
-                    ? <h4>{ `${availableQuantity} unidades disponíveis` }</h4>
-                    : <h4>Última unidade disponível</h4>
-                }
-                <div className="product-details-quantity">
-                  <h4>Quantidade:</h4>
-                  { isSelectOn
-                    ? (
-                      <select
-                          // set select value
-                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                        value={quantity}
-                      >
-                        {
-                            arrayOfNumbers.map((number) => (
-                              <option key={`option${number}`} value={number}>
-                                { `0${number}` }
-                              </option>
-                            ))
-                          }
-                        <option value="6">+ 6</option>
-                      </select>
-                    )
-                    : (
-                      <input
-                          // eslint-disable-next-line jsx-a11y/no-autofocus
-                        autoFocus
-                          // set input value
-                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                        type="number"
-                        value={quantity > 0 ? quantity : ''}
-                      />
-                    ) }
-                </div>
-
-                <div className="product-details-buttons">
-                  <button
-                    onClick={handleBtnOnClick}
-                    type="button"
-                  >
-                    Comprar agora
-                  </button>
-                  <button
-                    onClick={handleBtnOnClick}
-                    type="button"
-                  >
-                    Adicionar ao carrinho
-                  </button>
-                </div>
+            <div className="product-details-order">
+              <div className="order-original-price">
+                { originalPrice && originalPrice !== price
+                  && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5> }
               </div>
-            </form>
+              <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+
+              {
+                availableQuantity > 1
+                  ? <h4>{ `${availableQuantity} unidades disponíveis` }</h4>
+                  : <h4>Última unidade disponível</h4>
+              }
+              <div className="product-details-quantity">
+                <h4>Quantidade:</h4>
+                { isSelectOn
+                  ? (
+                    <select
+                      // set select value
+                      onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                      value={quantity}
+                    >
+                      {
+                        arrayOfNumbers.map((number) => (
+                          <option key={`option${number}`} value={number}>
+                            { `0${number}` }
+                          </option>
+                        ))
+                      }
+                      <option value="6">+ 6</option>
+                    </select>
+                  )
+                  : (
+                    <input
+                      // eslint-disable-next-line jsx-a11y/no-autofocus
+                      autoFocus
+                      // set input value
+                      onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                      type="number"
+                      value={quantity > 0 ? quantity : ''}
+                    />
+                  ) }
+              </div>
+
+              <div className="product-details-buttons">
+                <button
+                  onClick={handleBtnOnClick}
+                  type="button"
+                >
+                  Comprar agora
+                </button>
+                <button
+                  onClick={handleBtnOnClick}
+                  type="button"
+                >
+                  Adicionar ao carrinho
+                </button>
+              </div>
+            </div>
           </div>
         ) : <Loading />
     }
