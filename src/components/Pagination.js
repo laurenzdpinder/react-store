@@ -26,6 +26,7 @@ function Pagination({ paging }) {
   return (
     <section className="pagination">
       <button
+        className="pagination-react-icon"
         disabled={currentPage === 1}
         onClick={() => onPageChange(1)}
         type="button"
@@ -33,6 +34,7 @@ function Pagination({ paging }) {
         <BsChevronDoubleLeft />
       </button>
       <button
+        className="pagination-react-icon"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
         type="button"
@@ -58,6 +60,7 @@ function Pagination({ paging }) {
         ))
       }
       <button
+        className="pagination-react-icon"
         disabled={currentPage === pages}
         onClick={() => onPageChange(currentPage + 1)}
         type="button"
@@ -65,6 +68,7 @@ function Pagination({ paging }) {
         <BsChevronRight />
       </button>
       <button
+        className="pagination-react-icon"
         disabled={currentPage === pages}
         onClick={() => onPageChange(pages)}
         type="button"

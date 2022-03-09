@@ -18,6 +18,10 @@
   width: 30px;
 }
 
+.pagination-react-icon {
+  padding-top: 5px;
+}
+
 .pagination__item--active {
   color: rgb(97, 219, 251);
   font-weight: bold;
