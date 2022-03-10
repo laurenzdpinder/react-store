@@ -32,7 +32,7 @@ function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Provider;
