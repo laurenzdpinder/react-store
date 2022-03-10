@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import MyContext from '../context/MyContext';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import Header from '../components/Header';
 import Loading from '../components/Loading';
 import ProductCard from '../components/ProductCard';
 import '../assets/css/Home.css';
@@ -30,16 +31,19 @@ function Home() {
   }, [filters, offset]);
 
   return (
-    loading
-      ? <Loading />
-      : (
-        <div className="home-container">
-          <ProductCard
-            paging={paging}
-            products={products}
-          />
-        </div>
-      )
+    <>
+      <Header />
+      {loading
+        ? <Loading />
+        : (
+          <div className="home-container">
+            <ProductCard
+              paging={paging}
+              products={products}
+            />
+          </div>
+        )}
+    </>
   );
 }
 

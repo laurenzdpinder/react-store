@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import Loading from '../components/Loading';
 import {
@@ -7,12 +7,15 @@ import {
 } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/Cart.css';
+import Header from '../components/Header';
 
 function Cart() {
   const { productsQuantity, setProductsQuantity } = useContext(MyContext);
 
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+
+  const navigate = useNavigate();
 
   // get products from localStorage;
   // update individual/total products quantity/price & remove product;
@@ -44,6 +47,10 @@ function Cart() {
     const totalPrice = products.map(({ price, quantity }) => price * quantity)
       .reduce((acc, cur) => acc + cur, 0);
     return `R$ ${totalPrice.toFixed(2)}`;
+  };
+
+  const handleBtnOnClick = () => {
+    navigate('/purchcase');
   };
 
   const createCartContainer = () => {
@@ -142,7 +149,12 @@ function Cart() {
                 }
                 <h3>{ getTotalPrice() }</h3>
               </div>
-              <button type="button">Finalizar Compra</button>
+              <button
+                onClick={handleBtnOnClick}
+                type="button"
+              >
+                Finalizar Compra
+              </button>
             </div>
           </div>
         </div>
@@ -157,6 +169,7 @@ function Cart() {
 
   return (
     <div>
+      <Header />
       { loading ? <Loading /> : createCartContainer() }
     </div>
   );
