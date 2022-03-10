@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Provider from './context/Provider';
 import Header from './components/Header';
 import Cart from './pages/Cart';
@@ -10,11 +10,11 @@ function App() {
   return (
     <Provider>
       <Header />
-      <Switch>
-        <Route path="/cart" component={Cart} />
-        <Route path="/productdetails/:id" component={ProductDetails} />
-        <Route path="/" component={Home} />
-      </Switch>
+      <Routes>
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/productdetails/:id" element={<ProductDetails />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
     </Provider>
   );
 }

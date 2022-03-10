@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { getProductFromId } from '../services/api';
 import Loading from '../components/Loading';
@@ -8,14 +7,15 @@ import getHdImage from '../helpers/hdImage';
 import { addProduct, getProductsQuantity } from '../helpers/localStorageCart';
 import '../assets/css/ProductDetails.css';
 
-function ProductDetails({ match: { params: { id } } }) {
+function ProductDetails() {
   const { setFilters, setOffset, setProductsQuantity } = useContext(MyContext);
 
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [isSelectOn, setIsSelectOn] = useState(true);
 
-  const history = useHistory();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const {
     attributes,
@@ -57,9 +57,9 @@ function ProductDetails({ match: { params: { id } } }) {
       setOffset(0);
 
       if (target.innerText === 'Adicionar ao carrinho') {
-        history.push('/');
+        navigate('/');
       } else {
-        history.push('/cart');
+        navigate('/cart');
       }
     }
   };
@@ -162,13 +162,5 @@ function ProductDetails({ match: { params: { id } } }) {
     </div>
   );
 }
-
-ProductDetails.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default ProductDetails;

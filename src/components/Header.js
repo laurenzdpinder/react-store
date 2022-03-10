@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiUserCircle, BiSearch } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
 import { FaReact } from 'react-icons/fa';
@@ -13,7 +13,7 @@ function Header() {
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { input, select } = filtersOnChange;
 
@@ -42,7 +42,7 @@ function Header() {
     setFiltersOnChange({ input: '', select: '' });
     setFilters({ input: 'Computador', select: '' });
     setOffset(0);
-    history.push('/');
+    navigate('/');
   };
 
   // enable search button
@@ -53,7 +53,7 @@ function Header() {
     e.preventDefault();
     setFilters(filtersOnChange);
     setOffset(0);
-    history.push('/');
+    navigate('/');
   };
 
   return (
