@@ -105,7 +105,7 @@
 
 .order-summary-container {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   width: 25%;
 }
 
