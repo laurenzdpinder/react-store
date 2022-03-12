@@ -35,7 +35,9 @@ function Purchcase() {
       </button>
 
       <div className="products-review">
-        <div><h3>Revise seus produtos</h3></div>
+        <div className="products-review-title">
+          <h3>Revise seus produtos</h3>
+        </div>
         <div>
           {
             products.length
@@ -69,46 +71,60 @@ function Purchcase() {
 
       <div className="buyer-info">
         <form>
-          <h3>Informações do Comprador</h3>
-          <input
-            placeholder="Nome Completo"
-            type="text"
-          />
-          <input
-            placeholder="CPF"
-            type="number"
-          />
-          <input
-            placeholder="Email"
-            type="email"
-          />
-          <input
-            placeholder="Telefone"
-            type="tel"
-          />
-          <input
-            placeholder="CEP"
-            type="Number"
-          />
-          <input
-            placeholder="Endereço"
-            type="text"
-          />
-          <input
-            placeholder="Número"
-            type="text"
-          />
-          <input
-            placeholder="Complemento"
-            type="text"
-          />
-          <input
-            placeholder="Cidade"
-            type="text"
-          />
-          <select>
-            <option value="">Estado</option>
-          </select>
+          <div className="buyer-info-title">
+            <h3>Informações do Comprador</h3>
+          </div>
+
+          <div className="buyer-info-inputs">
+            <div>
+              <input
+                placeholder="Nome Completo"
+                type="text"
+              />
+              <input
+                placeholder="CPF"
+                type="number"
+              />
+              <input
+                placeholder="Email"
+                type="email"
+              />
+              <input
+                placeholder="Telefone"
+                type="tel"
+              />
+            </div>
+
+            <div>
+              <input
+                placeholder="CEP"
+                type="Number"
+              />
+              <input
+                placeholder="Endereço"
+                type="text"
+              />
+            </div>
+
+            <div className="buyer-info-inputs-3">
+              <input
+                placeholder="Número"
+                type="text"
+              />
+              <input
+                placeholder="Complemento"
+                type="text"
+              />
+              <input
+                placeholder="Cidade"
+                type="text"
+              />
+              <select>
+                <option value="">Estado</option>
+              </select>
+            </div>
+          </div>
+
         </form>
       </div>
 

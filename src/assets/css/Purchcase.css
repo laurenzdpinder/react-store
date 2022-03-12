@@ -18,6 +18,11 @@
   padding: 20px;
 }
 
+.products-review-title {
+  /* border: 1px solid black; */
+  margin-bottom: 40px;
+}
+
 .product-review {
   /* border: 1px solid black; */
   display: flex;
@@ -76,10 +81,37 @@
 
 .buyer-info {
   border: 1px solid red;
-  margin: 30px;
+  margin: 20px 30px;
+  padding: 20px;
+}
+
+.buyer-info-title {
+  /* border: 1px solid black; */
+  margin-bottom: 40px;
+}
+
+.buyer-info-inputs {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.buyer-info-inputs input {
+  padding: 10px;
+  /* width: auto; */
+}
+
+.buyer-info-inputs select {
+  padding: 10px;
+}
+
+.buyer-info-inputs-3 {
+  border: 2px solid blue;
+  display: flex;
 }
 
 .payment-method {
   border: 1px solid green;
-  margin: 30px;
+  margin: 20px 30px;
+  padding: 20px;
 }
