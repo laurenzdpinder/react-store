@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsBoxArrowLeft } from 'react-icons/bs';
 import { getProductsCart } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
+import getTotalPrice from '../helpers/getTotalPrice';
 import '../assets/css/Purchcase.css';
 
 function Purchcase() {
@@ -17,12 +18,6 @@ function Purchcase() {
     };
     retrieveProductsCart();
   }, []);
-
-  const getTotalPrice = () => {
-    const totalPrice = products.map(({ price, quantity }) => price * quantity)
-      .reduce((acc, cur) => acc + cur, 0);
-    return `R$ ${totalPrice.toFixed(2)}`;
-  };
 
   return (
     <div className="purchcase-container">
@@ -65,7 +60,7 @@ function Purchcase() {
           }
         </div>
         <div className="product-review-total">
-          <h3>{ `Total: ${getTotalPrice()}` }</h3>
+          <h3>{ `Total: ${getTotalPrice(products)}` }</h3>
         </div>
       </div>
 

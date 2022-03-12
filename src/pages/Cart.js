@@ -6,6 +6,7 @@ import {
   decreaseProductQuantity, increaseProductQuantity, getProductsCart, removeProduct,
 } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
+import getTotalPrice from '../helpers/getTotalPrice';
 import '../assets/css/Cart.css';
 import Header from '../components/Header';
 
@@ -41,12 +42,6 @@ function Cart() {
         return price * quantity;
       }).reduce((acc, cur) => acc + cur, 0);
     return `R$ ${totalOriginalPrice.toFixed(2)}`;
-  };
-
-  const getTotalPrice = () => {
-    const totalPrice = products.map(({ price, quantity }) => price * quantity)
-      .reduce((acc, cur) => acc + cur, 0);
-    return `R$ ${totalPrice.toFixed(2)}`;
   };
 
   const handleBtnOnClick = () => {
@@ -144,10 +139,10 @@ function Cart() {
                   : <h3>{ `Total (${productsQuantity} item):` }</h3>
                 }
                 {
-                getTotalPrice() !== getTotalOriginalPrice()
+                getTotalPrice(products) !== getTotalOriginalPrice()
                   && <h5>{ getTotalOriginalPrice() }</h5>
                 }
-                <h3>{ getTotalPrice() }</h3>
+                <h3>{ getTotalPrice(products) }</h3>
               </div>
               <button
                 onClick={handleBtnOnClick}
