@@ -7,6 +7,7 @@ import {
 } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
 import getTotalPrice from '../helpers/getTotalPrice';
+import getTotalOriginalPrice from '../helpers/getTotalOriginalPrice';
 import '../assets/css/Cart.css';
 import Header from '../components/Header';
 
@@ -32,17 +33,6 @@ function Cart() {
     };
     retrieveProductsCart();
   }, [productsQuantity]);
-
-  const getTotalOriginalPrice = () => {
-    const totalOriginalPrice = products
-      .map(({ originalPrice, price, quantity }) => {
-        if (originalPrice) {
-          return originalPrice * quantity;
-        }
-        return price * quantity;
-      }).reduce((acc, cur) => acc + cur, 0);
-    return `R$ ${totalOriginalPrice.toFixed(2)}`;
-  };
 
   const handleBtnOnClick = () => {
     navigate('/purchcase');
@@ -139,8 +129,8 @@ function Cart() {
                   : <h3>{ `Total (${productsQuantity} item):` }</h3>
                 }
                 {
-                getTotalPrice(products) !== getTotalOriginalPrice()
-                  && <h5>{ getTotalOriginalPrice() }</h5>
+                getTotalPrice(products) !== getTotalOriginalPrice(products)
+                  && <h5>{ getTotalOriginalPrice(products) }</h5>
                 }
                 <h3>{ getTotalPrice(products) }</h3>
               </div>
