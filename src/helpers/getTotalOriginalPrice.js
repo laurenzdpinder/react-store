@@ -6,7 +6,7 @@ const getTotalOriginalPrice = (products) => {
       }
       return price * quantity;
     }).reduce((acc, cur) => acc + cur, 0);
-  return `R$ ${totalOriginalPrice.toFixed(2)}`;
+  return totalOriginalPrice.toFixed(2);
 };
 
 export default getTotalOriginalPrice;

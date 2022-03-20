@@ -5,8 +5,9 @@ import {
   decreaseProductQuantity, increaseProductQuantity, getProductsCart, removeProduct,
 } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
-import getTotalPrice from '../helpers/getTotalPrice';
+import calculateDiscount from '../helpers/calculateDiscount';
 import getTotalOriginalPrice from '../helpers/getTotalOriginalPrice';
+import getTotalPrice from '../helpers/getTotalPrice';
 import '../assets/css/Cart.css';
 import Header from '../components/Header';
 
@@ -33,13 +34,13 @@ function Cart() {
   };
 
   return (
-    <div>
+    <>
       <Header />
       {
       products.length > 0
         ? (
-          <div className="cart-container">
-            <div className="cart-product-container">
+          <div className="cart">
+            <main className="cart-products">
               {
               products.map(({
                 id, quantity, originalPrice, price, thumbnail, title,
@@ -49,20 +50,20 @@ function Cart() {
                   key={`Cart-${id}`}
                 >
                   <Link
-                    className="cart-image"
+                    className="cart-product-image"
                     to={`/productDetails/${id}`}
                   >
                     <img src={getHdImage(thumbnail)} alt={title} />
                   </Link>
 
-                  <div className="cart-title">
+                  <div className="cart-product-title">
                     <h5>{ title }</h5>
 
-                    <div className="cart-quantity-container">
+                    <div>
                       <h5>Quantidade:</h5>
 
-                      <div className="cart-quantity-buttons">
-                        <div className="cart-quantity">
+                      <div className="cart-product-title-quantity">
+                        <div className="cart-product-title-quantity-amount">
                           <button
                             onClick={
                                 () => {
@@ -101,19 +102,24 @@ function Cart() {
                     </div>
                   </div>
 
-                  <div className="subtotal-container">
-                    <div className="subtotal-original-price">
+                  <section className="cart-product-subtotal">
+                    <div className="cart-product-subtotal-original-price">
                       { originalPrice && originalPrice !== price
-                          && <h5>{ `R$ ${(quantity * originalPrice).toFixed(2)}` }</h5> }
+                          && (
+                            <>
+                              <h5>{`- ${calculateDiscount(quantity, originalPrice, price)}%`}</h5>
+                              <h5>{ `R$ ${(quantity * originalPrice).toFixed(2)}` }</h5>
+                            </>
+                          ) }
                     </div>
-                    <h3 className="subtotal-price">{ `R$ ${(quantity * price).toFixed(2)}` }</h3>
-                  </div>
+                    <h3 className="cart-product-subtotal-price">{ `R$ ${(quantity * price).toFixed(2)}` }</h3>
+                  </section>
                 </div>
               ))
               }
-            </div>
+            </main>
 
-            <div className="order-summary-container">
+            <div className="cart-summary-container">
               <div className="order-summary">
                 <h2>Resumo do Pedido</h2>
                 <div className="order-summary-price">
@@ -124,9 +130,9 @@ function Cart() {
                   }
                   {
                   getTotalPrice(products) !== getTotalOriginalPrice(products)
-                    && <h5>{ getTotalOriginalPrice(products) }</h5>
+                    && <h5>{ `R$ ${getTotalOriginalPrice(products)}` }</h5>
                   }
-                  <h3>{ getTotalPrice(products) }</h3>
+                  <h3>{ `R$ ${getTotalPrice(products)}` }</h3>
                 </div>
                 <button
                   onClick={handleBtnOnClick}
@@ -139,12 +145,12 @@ function Cart() {
           </div>
         )
         : (
-          <div className="empty-cart">
+          <section className="empty-cart">
             <h2>Você ainda não possui nenhum produto em seu carrinho de compras!</h2>
-          </div>
+          </section>
         )
       }
-    </div>
+    </>
   );
 }
 
