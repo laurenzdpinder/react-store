@@ -73,8 +73,8 @@ function Purchcase() {
 
   const checkCPF = () => inputsOnChange.cpf.length < 11 && inputsOnChange.cpf.length > 0;
   const checkEmail = () => !inputsOnChange.email.includes('com');
-  const checkPhone = () => inputsOnChange.phone.length < 7;
-  const checkCEP = () => inputsOnChange.cep.length < 10;
+  const checkPhone = () => inputsOnChange.phone.length < 8;
+  const checkCEP = () => inputsOnChange.cep.length < 8;
 
   const checkValidation = (key, func) => {
     if (inputsOnChange[key].length === 0) {
