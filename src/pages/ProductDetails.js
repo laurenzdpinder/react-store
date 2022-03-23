@@ -5,6 +5,7 @@ import { getProductFromId } from '../services/api';
 import Loading from '../components/Loading';
 import getHdImage from '../helpers/hdImage';
 import { addProduct, getProductsQuantity } from '../helpers/localStorageCart';
+import calculateDiscount from '../helpers/calculateDiscount';
 import '../assets/css/ProductDetails.css';
 import Header from '../components/Header';
 
@@ -84,9 +85,18 @@ function ProductDetails() {
               <div className="product-details">
                 <h2>{ title }</h2>
                 <div className="product-details-price">
-                  {originalPrice && originalPrice !== price
-                    && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5>}
-                  <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+                  <div>
+                    {
+                      originalPrice && originalPrice !== price
+                      && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5>
+                    }
+                    <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
+                  </div>
+                  {
+                    originalPrice && (
+                      <div><h3>{`${calculateDiscount(1, originalPrice, price)}% OFF`}</h3></div>
+                    )
+                  }
                 </div>
 
                 { attributes.map(({ name, value_name: valueName }, index) => (
@@ -103,8 +113,15 @@ function ProductDetails() {
 
               <div className="product-details-order">
                 <div className="order-original-price">
-                  { originalPrice && originalPrice !== price
-                    && <h5>{ `R$ ${(originalPrice).toFixed(2)}` }</h5> }
+                  {
+                    originalPrice && originalPrice !== price
+                    && (
+                      <>
+                        <h5>{`R$ ${(originalPrice).toFixed(2)}`}</h5>
+                        <h5>{`-${calculateDiscount(1, originalPrice, price)}%`}</h5>
+                      </>
+                    )
+                  }
                 </div>
                 <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
 
