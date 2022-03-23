@@ -5,6 +5,7 @@ import Cart from './pages/Cart';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Purchcase from './pages/Purchcase';
+import OrderShipped from './pages/OrderShipped';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/productdetails/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/purchcase" element={<Purchcase />} />
+        <Route path="/ordershipped" element={<OrderShipped />} />
       </Routes>
     </Provider>
   );
