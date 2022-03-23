@@ -6,39 +6,45 @@ import {
   RiBankLine, RiBarcodeLine, RiMastercardLine, RiVisaLine,
 } from 'react-icons/ri';
 import { getProductsCart } from '../helpers/localStorageCart';
-import getHdImage from '../helpers/hdImage';
 import getTotalPrice from '../helpers/getTotalPrice';
+import getHdImage from '../helpers/hdImage';
 import '../assets/css/Purchcase.css';
+
+const inputs = {
+  firstname: '',
+  surname: '',
+  cpf: '',
+  email: '',
+  phone: '',
+  cep: '',
+  address: '',
+  number: '',
+  complement: '',
+  city: '',
+  state: '',
+  paymentMethod: '',
+};
+
+const validation = {
+  firstname: 0,
+  surname: 0,
+  cpf: 0,
+  email: 0,
+  phone: 0,
+  cep: 0,
+  address: 0,
+  number: 0,
+  complement: 0,
+  city: 0,
+  state: 0,
+  paymentMethod: 0,
+};
 
 function Purchcase() {
   const [products, setProducts] = useState([]);
-  const [inputsOnChange, setInputsOnChange] = useState({
-    firstname: '',
-    surname: '',
-    cpf: '',
-    email: '',
-    phone: '',
-    cep: '',
-    address: '',
-    number: '',
-    complement: '',
-    city: '',
-    state: '',
-    paymentMethod: '',
-  });
-  const [isValidInfo, setIsValidInfo] = useState({
-    firstname: 0,
-    surname: 0,
-    cpf: 0,
-    email: 0,
-    phone: 0,
-    cep: 0,
-    address: 0,
-    number: 0,
-    complement: 0,
-    city: 0,
-    state: 0,
-  });
+  const [inputsOnChange, setInputsOnChange] = useState(inputs);
+  const [isValidInfo, setIsValidInfo] = useState(validation);
+  const [validationMessage, setValidationMessage] = useState(validation);
 
   const navigate = useNavigate();
 
@@ -52,6 +58,17 @@ function Purchcase() {
 
   const handleInputOnChange = ({ target: { name, value } }) => {
     setInputsOnChange((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRadioOnClick = ({ target }) => {
+    const radioValue = document.querySelector('input[name="payment-method"]:checked').value;
+    setInputsOnChange((prev) => ({ ...prev, paymentMethod: radioValue }));
+
+    const label = document.querySelectorAll('label');
+    for (let i = 0; i < label.length; i += 1) {
+      label[i].classList.remove('payment-method-select');
+    }
+    target.parentNode.classList.add('payment-method-select');
   };
 
   const checkCPF = () => inputsOnChange.cpf.length < 11 && inputsOnChange.cpf.length > 0;
@@ -69,7 +86,7 @@ function Purchcase() {
     }
   };
 
-  const handleBuyBtnOnClick = () => {
+  const checkAllValidations = () => {
     checkValidation('firstname', false);
     checkValidation('surname', false);
     checkValidation('cpf', checkCPF());
@@ -80,25 +97,37 @@ function Purchcase() {
     checkValidation('number', false);
     checkValidation('city', false);
     checkValidation('state', false);
+    checkValidation('paymentMethod', false);
   };
 
-  const isValidInput = (key, h5) => {
-    if (isValidInfo[key] === 1) {
+  useEffect(() => {
+    checkAllValidations();
+  }, [inputsOnChange]);
+
+  const createArrayOfValidation = () => {
+    const array = [];
+    for (let i = 0; i < Object.keys(isValidInfo).length; i += 1) {
+      const value = Object.values(isValidInfo)[i];
+      array.push(value);
+    }
+    return array.every((e) => e === 0);
+  };
+
+  const handleBuyBtnOnClick = () => {
+    if (createArrayOfValidation()) {
+      navigate('/ordershipped');
+    }
+    return setValidationMessage(isValidInfo);
+  };
+
+  const renderValidationMessage = (key, h5) => {
+    if (validationMessage[key] === 1) {
       return <h5>Campo Obrigatório</h5>;
     }
-    if (isValidInfo[key] === 2) {
+    if (validationMessage[key] === 2) {
       return <h5>{`${h5} Inválido`}</h5>;
     }
     return null;
-  };
-
-  console.log(inputsOnChange.paymentMethod);
-  // console.log(document.querySelector('#firstname').value);
-  // console.log(document.querySelector('input[name="payment-method"]:checked').value);
-
-  const handleRadioOnClick = () => {
-    const radioValue = document.querySelector('input[name="payment-method"]:checked').value;
-    setInputsOnChange((prev) => ({ ...prev, paymentMethod: radioValue }));
   };
 
   return (
@@ -204,12 +233,12 @@ function Purchcase() {
               />
             </div>
 
-            <div className="buyer-info-inputs-i1">
-              <div>{isValidInput('firstname')}</div>
-              <div>{isValidInput('surname')}</div>
-              <div>{isValidInput('cpf', 'CPF')}</div>
-              <div>{isValidInput('email', 'Email')}</div>
-              <div>{isValidInput('phone', 'Telefone')}</div>
+            <div className="buyer-info-inputs-i1 purchcase-authentication">
+              <div>{renderValidationMessage('firstname')}</div>
+              <div>{renderValidationMessage('surname')}</div>
+              <div>{renderValidationMessage('cpf', 'CPF')}</div>
+              <div>{renderValidationMessage('email', 'Email')}</div>
+              <div>{renderValidationMessage('phone', 'Telefone')}</div>
             </div>
 
             <div className="buyer-info-inputs-l2">
@@ -233,9 +262,9 @@ function Purchcase() {
               />
             </div>
 
-            <div className="buyer-info-inputs-i2">
-              <div>{isValidInput('cep', 'CEP')}</div>
-              <div>{isValidInput('address')}</div>
+            <div className="buyer-info-inputs-i2 purchcase-authentication">
+              <div>{renderValidationMessage('cep', 'CEP')}</div>
+              <div>{renderValidationMessage('address')}</div>
             </div>
 
             <div className="buyer-info-inputs-l3">
@@ -304,11 +333,11 @@ function Purchcase() {
               </select>
             </div>
 
-            <div className="buyer-info-inputs-i3">
-              <div>{isValidInput('number')}</div>
+            <div className="buyer-info-inputs-i3 purchcase-authentication">
+              <div>{renderValidationMessage('number')}</div>
               <div />
-              <div>{isValidInput('city')}</div>
-              <div>{isValidInput('state')}</div>
+              <div>{renderValidationMessage('city')}</div>
+              <div>{renderValidationMessage('state')}</div>
             </div>
           </div>
         </form>
@@ -318,81 +347,91 @@ function Purchcase() {
         <div className="purchcase-container-titles">
           <h3>Método de Pagamento</h3>
         </div>
-        <form className="payment-methods-form">
-          <div className="payment-method">
-            <label htmlFor="bank-slip">
-              <input
-                id="bank-slip"
-                name="payment-method"
-                onClick={handleRadioOnClick}
-                type="radio"
-                value="Boleto"
-              />
-              <div className="payment-method-type">
-                <div><h6><RiBarcodeLine /></h6></div>
-                <div>
-                  <h5>Boleto</h5>
-                  <p>Aprovação em até 2 dias úteis</p>
+
+        <form>
+          <div className="payment-methods-form">
+            <div className="payment-method">
+              <label htmlFor="bank-slip">
+                <input
+                  id="bank-slip"
+                  name="payment-method"
+                  onClick={handleRadioOnClick}
+                  type="radio"
+                  value="Boleto"
+                />
+                <div className="payment-method-type">
+                  <div><h6><RiBarcodeLine /></h6></div>
+                  <div>
+                    <h5>Boleto</h5>
+                    <p>Aprovação em até 2 dias úteis</p>
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
+            </div>
+
+            <div className="payment-method">
+              <label htmlFor="credit">
+                <input
+                  id="credit"
+                  name="payment-method"
+                  onClick={handleRadioOnClick}
+                  type="radio"
+                  value="Crédito"
+                />
+                <div className="payment-method-type">
+                  <div>
+                    <h6 id="mastercard"><RiMastercardLine /></h6>
+                    <h6 id="visa"><RiVisaLine /></h6>
+                  </div>
+                  <div>
+                    <h5>Crédito</h5>
+                    <p>Até 12 vezes sem juros</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div className="payment-method">
+              <label htmlFor="debit">
+                <input
+                  id="debit"
+                  name="payment-method"
+                  onClick={handleRadioOnClick}
+                  type="radio"
+                  value="Débito"
+                />
+                <div className="payment-method-type">
+                  <div><h6><MdPayment /></h6></div>
+                  <div>
+                    <h5>Débito</h5>
+                    <p>Aprovação imediata</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div className="payment-method">
+              <label htmlFor="bank-transfer">
+                <input
+                  id="bank-transfer"
+                  name="payment-method"
+                  onClick={handleRadioOnClick}
+                  type="radio"
+                  value="Transferência Bancária"
+                />
+                <div className="payment-method-type">
+                  <div><h6><RiBankLine /></h6></div>
+                  <div>
+                    <h5>Transferência Bancária</h5>
+                    <p>Aprovação em até 2 horas</p>
+                  </div>
+                </div>
+              </label>
+            </div>
           </div>
-          <div className="payment-method">
-            <label htmlFor="credit">
-              <input
-                id="credit"
-                name="payment-method"
-                onClick={handleRadioOnClick}
-                type="radio"
-                value="Crédito"
-              />
-              <div className="payment-method-type">
-                <div>
-                  <h6 id="mastercard"><RiMastercardLine /></h6>
-                  <h6 id="visa"><RiVisaLine /></h6>
-                </div>
-                <div>
-                  <h5>Crédito</h5>
-                  <p>Até 12 vezes sem juros</p>
-                </div>
-              </div>
-            </label>
-          </div>
-          <div className="payment-method">
-            <label htmlFor="debit">
-              <input
-                id="debit"
-                name="payment-method"
-                onClick={handleRadioOnClick}
-                type="radio"
-                value="Débito"
-              />
-              <div className="payment-method-type">
-                <div><h6><MdPayment /></h6></div>
-                <div>
-                  <h5>Débito</h5>
-                  <p>Aprovação imediata</p>
-                </div>
-              </div>
-            </label>
-          </div>
-          <div className="payment-method">
-            <label htmlFor="bank-transfer">
-              <input
-                id="bank-transfer"
-                name="payment-method"
-                onClick={handleRadioOnClick}
-                type="radio"
-                value="Transferência Bancária"
-              />
-              <div className="payment-method-type">
-                <div><h6><RiBankLine /></h6></div>
-                <div>
-                  <h5>Transferência Bancária</h5>
-                  <p>Aprovação em até 2 horas</p>
-                </div>
-              </div>
-            </label>
+
+          <div className="payment-method-authentication purchcase-authentication">
+            <div>{renderValidationMessage('paymentMethod')}</div>
           </div>
         </form>
       </div>
