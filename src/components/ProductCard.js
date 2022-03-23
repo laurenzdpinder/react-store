@@ -4,18 +4,14 @@ import { Link } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import Pagination from './Pagination';
 import getHdImage from '../helpers/hdImage';
+import calculateDiscount from '../helpers/calculateDiscount';
 import '../assets/css/ProductCard.css';
 
 function ProductCard({ paging, products }) {
   const { filters: { input } } = useContext(MyContext);
 
-  // render original price if product has a discount
-  const getOriginalPrice = (originalPrice, price) => {
-    if (originalPrice > price) {
-      return `R$ ${(originalPrice).toFixed(2)}`;
-    }
-    return null;
-  };
+  // render original price
+  const getOriginalPrice = (originalPrice) => `R$ ${(originalPrice).toFixed(2)}`;
 
   return (
     <>
@@ -35,7 +31,19 @@ function ProductCard({ paging, products }) {
                 >
                   <img src={getHdImage(thumbnail)} alt={title} />
                   <div className="product-price">
-                    <h5>{ getOriginalPrice(originalPrice, price) }</h5>
+                    <div>
+                      {
+                        originalPrice > price
+                        && (
+                          <>
+                            <h5>{getOriginalPrice(originalPrice, price)}</h5>
+                            <h5>{`-${calculateDiscount(1, originalPrice, price)}%`}</h5>
+                          </>
+                        )
+                      }
+
+                    </div>
+
                     <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
                   </div>
                   <div className="product-name">

@@ -42,9 +42,18 @@
   width: 100%;
 }
 
-.product-price h5{
+.product-price div:nth-child(1) {
+  display: flex;
+}
+
+.product-price h5:nth-child(1){
   color: rgb(102, 102, 102, 0.5);;
   text-decoration: line-through;
+}
+
+.product-price h5:nth-child(2){
+  color: rgb(97, 219, 251);
+  margin-left: 5px;;
 }
 
 .product-price h3 {
