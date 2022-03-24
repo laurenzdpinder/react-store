@@ -96,6 +96,72 @@
   width: 220px;
 }
 
+#acess-box {
+  align-items: center;
+  background-color: rgb(40, 88, 160);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  padding: 10px;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  width: 200px;
+}
+
+#acess-box input {
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 5px 10px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+#acess-box h5:last-of-type {
+  margin-top: 10px;
+}
+
+#acess-box button {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin: 10px;
+}
+
+#acess-box button:hover {
+  background-color: rgb(97, 219, 251);
+  color: rgb(255, 255, 255);
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcome h4:last-child {
+  text-align: center;
+  color: rgb(97, 219, 251);
+}
+
+.user-access-container:hover {
+  color: rgb(62, 121, 208);
+}
+
+.user-access-container:hover #acess-box {
+  color: rgb(255, 255, 255);
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 1s;
+  visibility: visible;
+}
+
+.user-access-container:hover .welcome h4:last-child {
+  color: rgb(62, 121, 208);
+}
+
 .user-access-container h3 {
   align-items: center;
   display: flex;
@@ -116,6 +182,7 @@
 
 .sing-up h5 {
   font-size: 14px;
+  text-align: center;
 }
 
 .sing-up p {

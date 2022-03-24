@@ -4,6 +4,7 @@ import { BiUserCircle, BiSearch } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
 import { FaReact } from 'react-icons/fa';
 import { getCategories } from '../services/api';
+import { addUsername, getUsername } from '../helpers/localStorageCart';
 import MyContext from '../context/MyContext';
 import '../assets/css/Header.css';
 
@@ -12,10 +13,14 @@ function Header() {
 
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
+  const [login, setLogin] = useState({ username: '', password: '' });
+
+  const [user, setUser] = useState('');
 
   const navigate = useNavigate();
 
   const { input, select } = filtersOnChange;
+  const { username, password } = login;
 
   // fetch & render select categories
   useEffect(() => {
@@ -26,9 +31,22 @@ function Header() {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const retrieverUsername = async () => {
+      const name = await getUsername();
+      if (name.length) setUser(name);
+      if (!name.length) setUser('');
+    };
+    retrieverUsername();
+  }, [login]);
+
   // change input and select values
-  const handleFilterOnChange = ({ target: { name, value } }) => {
+  const handleFiltersOnChange = ({ target: { name, value } }) => {
     setFiltersOnChange((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLoginOnChange = ({ target: { name, value } }) => {
+    setLogin((prev) => ({ ...prev, [name]: value }));
   };
 
   // clear input & select values after click on ProductDetails buttons
@@ -56,6 +74,18 @@ function Header() {
     navigate('/');
   };
 
+  const handleLoginBtnOnClick = () => {
+    if (username && password) {
+      addUsername(username);
+      setLogin({ username, password: '' });
+    }
+  };
+
+  const handleLoginOutBtnOnClick = () => {
+    addUsername('');
+    setLogin({ username: '', password: '' });
+  };
+
   return (
     <>
       <div id="header-anchor" />
@@ -73,7 +103,7 @@ function Header() {
         <form className="search-bar">
           <select
             name="select"
-            onChange={handleFilterOnChange}
+            onChange={handleFiltersOnChange}
             value={select}
           >
             <option value="">Todos</option>
@@ -90,7 +120,7 @@ function Header() {
           <input
             autoComplete="off"
             name="input"
-            onChange={handleFilterOnChange}
+            onChange={handleFiltersOnChange}
             placeholder="Busque aqui seu produto"
             type="text"
             value={input}
@@ -118,14 +148,68 @@ function Header() {
 
         <div className="user-cart">
           <div className="user-access-container">
-            <h3><BiUserCircle /></h3>
-            <div className="user-access">
-              <h5>olá, faça seu login</h5>
-              <div className="sing-up">
-                <h5>ou cadastre-se</h5>
-                <p>v</p>
-              </div>
-            </div>
+            {
+              user
+                ? (
+                  <div className="user-access welcome">
+                    <h4>Boas-Vindas</h4>
+                    <h4>{`${user} !`}</h4>
+                  </div>
+                )
+                : (
+                  <>
+                    <h3><BiUserCircle /></h3>
+                    <div className="user-access">
+                      <h5>olá, faça seu login</h5>
+                      <div className="sing-up">
+                        <h5>ou cadastre-se</h5>
+                        <p>v</p>
+                      </div>
+                    </div>
+                  </>
+                )
+            }
+
+            {
+              user
+                ? (
+                  <div id="acess-box">
+                    <button
+                      onClick={handleLoginOutBtnOnClick}
+                      type="button"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                )
+                : (
+                  <div id="acess-box">
+                    <h4>Usuário</h4>
+                    <input
+                      autoComplete="off"
+                      onChange={handleLoginOnChange}
+                      name="username"
+                      type="text"
+                      value={login.username}
+                    />
+                    <h4>Senha</h4>
+                    <input
+                      autoComplete="off"
+                      onChange={handleLoginOnChange}
+                      maxLength="8"
+                      name="password"
+                      type="text"
+                      value={login.password.replace(/[A-Z0-9!-]/, '*')}
+                    />
+                    <button
+                      onClick={handleLoginBtnOnClick}
+                      type="button"
+                    >
+                      Entrar
+                    </button>
+                  </div>
+                )
+            }
           </div>
 
           <Link className="cart-icon" to="/cart">
