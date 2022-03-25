@@ -14,7 +14,7 @@ function Header() {
   const [categories, setCategories] = useState([{}]);
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
   const [login, setLogin] = useState({ username: '', password: '' });
-
+  const [loadingAccess, setLoadingAccess] = useState(true);
   const [user, setUser] = useState('');
 
   const navigate = useNavigate();
@@ -33,9 +33,11 @@ function Header() {
 
   useEffect(() => {
     const retrieverUsername = async () => {
+      setLoadingAccess(true);
       const name = await getUsername();
       if (name.length) setUser(name);
       if (!name.length) setUser('');
+      setLoadingAccess(false);
     };
     retrieverUsername();
   }, [login]);
@@ -46,7 +48,15 @@ function Header() {
   };
 
   const handleLoginOnChange = ({ target: { name, value } }) => {
-    setLogin((prev) => ({ ...prev, [name]: value }));
+    const allowedValue = value.replace(/[^a-zA-Z0-9*]/g, '');
+    const secretValue = [];
+    if (name === 'password') {
+      for (let i = 0; i < allowedValue.length; i += 1) {
+        secretValue.push('*');
+      }
+      return setLogin((prev) => ({ ...prev, [name]: secretValue.join('') }));
+    }
+    return setLogin((prev) => ({ ...prev, [name]: value }));
   };
 
   // clear input & select values after click on ProductDetails buttons
@@ -84,6 +94,30 @@ function Header() {
   const handleLoginOutBtnOnClick = () => {
     addUsername('');
     setLogin({ username: '', password: '' });
+  };
+
+  const createUserAccessJSX = () => {
+    if (loadingAccess) return null;
+    if (user) {
+      return (
+        <div className="user-access welcome">
+          <h4>Boas-Vindas</h4>
+          <h4>{`${user} !`}</h4>
+        </div>
+      );
+    }
+    return (
+      <>
+        <h3><BiUserCircle /></h3>
+        <div className="user-access">
+          <h5>olá, faça seu login</h5>
+          <div className="sing-up">
+            <h5>ou cadastre-se</h5>
+            <p>v</p>
+          </div>
+        </div>
+      </>
+    );
   };
 
   return (
@@ -148,28 +182,7 @@ function Header() {
 
         <div className="user-cart">
           <div className="user-access-container">
-            {
-              user
-                ? (
-                  <div className="user-access welcome">
-                    <h4>Boas-Vindas</h4>
-                    <h4>{`${user} !`}</h4>
-                  </div>
-                )
-                : (
-                  <>
-                    <h3><BiUserCircle /></h3>
-                    <div className="user-access">
-                      <h5>olá, faça seu login</h5>
-                      <div className="sing-up">
-                        <h5>ou cadastre-se</h5>
-                        <p>v</p>
-                      </div>
-                    </div>
-                  </>
-                )
-            }
-
+            {createUserAccessJSX()}
             {
               user
                 ? (
@@ -199,7 +212,7 @@ function Header() {
                       maxLength="8"
                       name="password"
                       type="text"
-                      value={login.password.replace(/[A-Z0-9!-]/, '*')}
+                      value={login.password}
                     />
                     <button
                       onClick={handleLoginBtnOnClick}
