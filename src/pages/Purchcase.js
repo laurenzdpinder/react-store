@@ -5,7 +5,7 @@ import { MdPayment } from 'react-icons/md';
 import {
   RiBankLine, RiBarcodeLine, RiMastercardLine, RiVisaLine,
 } from 'react-icons/ri';
-import { getProductsCart } from '../helpers/localStorageCart';
+import { addBuyerInfo, getProductsCart } from '../helpers/localStorageCart';
 import getTotalPrice from '../helpers/getTotalPrice';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/Purchcase.css';
@@ -72,7 +72,7 @@ function Purchcase() {
   };
 
   const checkCPF = () => inputsOnChange.cpf.length < 11 && inputsOnChange.cpf.length > 0;
-  const checkEmail = () => !inputsOnChange.email.includes('com');
+  const checkEmail = () => !inputsOnChange.email.includes('@') || !inputsOnChange.email.includes('com');
   const checkPhone = () => inputsOnChange.phone.length < 8;
   const checkCEP = () => inputsOnChange.cep.length < 8;
 
@@ -114,7 +114,8 @@ function Purchcase() {
   };
 
   const handleBuyBtnOnClick = () => {
-    if (createArrayOfValidation()) {
+    if (createArrayOfValidation() && products.length > 0) {
+      addBuyerInfo(inputsOnChange);
       navigate('/ordershipped');
     }
     return setValidationMessage(isValidInfo);
@@ -186,7 +187,7 @@ function Purchcase() {
           <div className="buyer-info-inputs">
             <div className="buyer-info-inputs-l1">
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="firstname"
                 onChange={handleInputOnChange}
                 placeholder="Nome"
@@ -195,7 +196,7 @@ function Purchcase() {
                 value={inputsOnChange.firstname.toUpperCase()}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="surname"
                 onChange={handleInputOnChange}
                 placeholder="Sobrenome"
@@ -204,7 +205,7 @@ function Purchcase() {
                 value={inputsOnChange.surname.toUpperCase()}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id-="cpf"
                 onChange={handleInputOnChange}
                 placeholder="CPF"
@@ -214,7 +215,7 @@ function Purchcase() {
                 value={inputsOnChange.cpf}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="email"
                 onChange={handleInputOnChange}
                 name="email"
@@ -223,7 +224,7 @@ function Purchcase() {
                 value={inputsOnChange.email}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="phone"
                 onChange={handleInputOnChange}
                 name="phone"
@@ -243,7 +244,7 @@ function Purchcase() {
 
             <div className="buyer-info-inputs-l2">
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="cep"
                 onChange={handleInputOnChange}
                 name="cep"
@@ -252,7 +253,7 @@ function Purchcase() {
                 value={inputsOnChange.cep}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="address"
                 onChange={handleInputOnChange}
                 name="address"
@@ -269,7 +270,7 @@ function Purchcase() {
 
             <div className="buyer-info-inputs-l3">
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="number"
                 onChange={handleInputOnChange}
                 name="number"
@@ -278,7 +279,7 @@ function Purchcase() {
                 value={inputsOnChange.number}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="complement"
                 onChange={handleInputOnChange}
                 name="complement"
@@ -287,7 +288,7 @@ function Purchcase() {
                 value={inputsOnChange.complement}
               />
               <input
-                autoComplete="off"
+                // autoComplete="off"
                 id="city"
                 onChange={handleInputOnChange}
                 name="city"

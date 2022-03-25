@@ -1,5 +1,6 @@
 const PRODUCTS_CART_KEY = 'products_cart';
 const LOGIN = 'login';
+const BUYER_INFO = 'buyer_info';
 
 if (!JSON.parse(localStorage.getItem(PRODUCTS_CART_KEY))) {
   localStorage.setItem(PRODUCTS_CART_KEY, JSON.stringify([]));
@@ -9,11 +10,24 @@ if (!JSON.parse(localStorage.getItem(LOGIN))) {
   localStorage.setItem(LOGIN, JSON.stringify(''));
 }
 
+if (!JSON.parse(localStorage.getItem(BUYER_INFO))) {
+  localStorage.setItem(BUYER_INFO, JSON.stringify([]));
+}
+
 const getItem = (key) => JSON.parse(localStorage
   .getItem(key)) || [];
 
-const setItem = (key, productsCart) => localStorage
-  .setItem(key, JSON.stringify(productsCart));
+const setItem = (key, data) => localStorage
+  .setItem(key, JSON.stringify(data));
+
+export const addBuyerInfo = (info) => {
+  setItem(BUYER_INFO, info);
+};
+
+export const getBuyerInfo = () => {
+  const info = getItem(BUYER_INFO);
+  return info;
+};
 
 export const addUsername = (username) => {
   setItem(LOGIN, username);

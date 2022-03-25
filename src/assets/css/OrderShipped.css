@@ -1,0 +1,5 @@
+.order-shipped-container {
+  border: 1px solid black;
+  display: flex;
+  margin : 30px;
+}
