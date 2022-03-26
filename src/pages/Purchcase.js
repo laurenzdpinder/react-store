@@ -72,7 +72,7 @@ function Purchcase() {
   };
 
   const checkCPF = () => inputsOnChange.cpf.length < 11 && inputsOnChange.cpf.length > 0;
-  const checkEmail = () => !inputsOnChange.email.includes('@') || !inputsOnChange.email.includes('com');
+  const checkEmail = () => !inputsOnChange.email.includes('@') || !inputsOnChange.email.toUpperCase().includes('COM');
   const checkPhone = () => inputsOnChange.phone.length < 8;
   const checkCEP = () => inputsOnChange.cep.length < 8;
 
@@ -212,7 +212,7 @@ function Purchcase() {
                 maxLength="14"
                 name="cpf"
                 type="text"
-                value={inputsOnChange.cpf}
+                value={inputsOnChange.cpf.replace(/[^0-9.-]/g, '')}
               />
               <input
                 // autoComplete="off"
@@ -221,7 +221,7 @@ function Purchcase() {
                 name="email"
                 placeholder="Email"
                 type="email"
-                value={inputsOnChange.email}
+                value={inputsOnChange.email.toUpperCase()}
               />
               <input
                 // autoComplete="off"
@@ -230,7 +230,7 @@ function Purchcase() {
                 name="phone"
                 placeholder="Telefone"
                 type="tel"
-                value={inputsOnChange.phone}
+                value={inputsOnChange.phone.replace(/[^0-9()-]/g, '')}
               />
             </div>
 
@@ -250,7 +250,7 @@ function Purchcase() {
                 name="cep"
                 placeholder="CEP"
                 type="text"
-                value={inputsOnChange.cep}
+                value={inputsOnChange.cep.replace(/[^0-9].-/g, '')}
               />
               <input
                 // autoComplete="off"
@@ -276,7 +276,7 @@ function Purchcase() {
                 name="number"
                 placeholder="Número"
                 type="text"
-                value={inputsOnChange.number}
+                value={inputsOnChange.number.replace(/[^0-9]/g, '')}
               />
               <input
                 // autoComplete="off"
@@ -285,7 +285,7 @@ function Purchcase() {
                 name="complement"
                 placeholder="Complemento"
                 type="text"
-                value={inputsOnChange.complement}
+                value={inputsOnChange.complement.toUpperCase()}
               />
               <input
                 // autoComplete="off"
@@ -294,7 +294,7 @@ function Purchcase() {
                 name="city"
                 placeholder="Cidade"
                 type="text"
-                value={inputsOnChange.city.toLocaleUpperCase()}
+                value={inputsOnChange.city.toUpperCase()}
               />
               <select
                 id="state"
