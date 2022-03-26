@@ -67,7 +67,7 @@ function OrderShipped() {
                   <div>
                     <h5>CPF</h5>
                     <hr />
-                    <h5>{cpf.replace(/[^0-9]/g, '')}</h5>
+                    <h5>{cpf.replace(/[^0-9.-]/g, '')}</h5>
                   </div>
                   <div>
                     <h5>EMAIL</h5>
@@ -77,7 +77,7 @@ function OrderShipped() {
                   <div>
                     <h5>TELEFONE</h5>
                     <hr />
-                    <h5>{phone.replace(/[^0-9]/g, '')}</h5>
+                    <h5>{phone.replace(/[^0-9()-]/g, '')}</h5>
                   </div>
                 </div>
 
@@ -90,7 +90,7 @@ function OrderShipped() {
                       ${checkComplement()}
                       MUNICÍPIO: ${city.toUpperCase()},
                       UF: ${state},
-                      CEP: ${cep.replace(/[^0-9]/g, '')}`
+                      CEP: ${cep.replace(/[^0-9.-]/g, '')}`
                     }
                   </h5>
                 </div>
