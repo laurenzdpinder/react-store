@@ -80,6 +80,10 @@
   text-decoration: none;
 }
 
+.product-cart-bottom:hover a {
+  color: rgb(97, 219, 251);
+}
+
 .product-not-found {
   background-color: rgb(254, 254, 254);
   border-radius: 10px;
