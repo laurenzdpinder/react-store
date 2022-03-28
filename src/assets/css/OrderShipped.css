@@ -1,48 +1,20 @@
-.order-shipped-container {
-  /* border: 1px solid black; */
+.order-shipped {
   display: flex;
   justify-content: center;
   margin : 30px;
 }
 
-.order-shipped {
-  background-color: rgb(255, 255, 255);
-  border: 2px solid rgb(97, 219, 251);
-  border-radius: 10px;
-  padding: 30px 20px;
+.order {
   margin-right: 30px;
-  width: 40%;
+  width: 45%;
 }
 
-.order-shipped h3 {
-  /* border: 1px solid blue; */
-  /* ta chumbado */
-  /* margin-bottom: 5px; */
-  /* width: 100%; */
-  font-size: 16px;
+.order h3 {
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
 }
 
-.order-shipped h4:nth-child(n + 2) {
-  border: 1px solid blue;
-  font-size: 13px;
-  margin: 15px 0;
-}
-
-.order-shipped-buyer div {
-  /* border: 1px solid red; */
-  display: flex;
-  margin: 5px 0;
-  /* justify-content: space-between; */
-}
-
-.order-shipped-buyer h5 {
-  /* border: 1px solid black; */
-  white-space: nowrap;
-  margin-bottom: -2.8px;
-  /* padding: 2px 0; */
-}
-
-hr {
+.order hr {
   border-bottom: 2px dotted;
   border-left: 0;
   border-right: 0;
@@ -50,28 +22,108 @@ hr {
   width: 100%;
 }
 
-.order-shipped-address {
-  /* border: 1px solid black; */
-  text-align: justify;
+.delivery-data {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(97, 219, 251);
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 30px 20px;
+}
+
+.delivery-data h4 {
+  margin: 10px 0;
+}
+
+.personal-info div {
+  display: flex;
   margin: 5px 0;
 }
 
-/* .order-shipped-address h5 {
+.personal-info h5 {
+  white-space: nowrap;
+  margin-bottom: -2.8px;
+}
+
+.address {
+  text-align: justify;
+}
+
+.address h5 {
+  margin-top: 5px;
+}
+
+.purchcase-details {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(97, 219, 251);
+  border-radius: 10px;
+  padding: 30px 20px;
+}
+
+.purchcase-details-title {
   border: 1px solid black;
-} */
+  border-bottom: 0;
+  display: flex;
+  text-align: center;
+}
+
+.purchcase-details-title h5:nth-child(1) {
+  margin-right: 6px;
+  width: calc(60% - 6px);
+}
+
+.purchcase-details-title h5:nth-child(2) {
+  width: 8%;
+}
+
+.purchcase-details-title h5:nth-child(n+3) {
+  width: 16%;
+}
+
+.order-shipped-product {
+  align-items: center;
+  border: 1px solid black;
+  display: flex;
+}
+
+.order-shipped-product-image {
+  display: flex;
+  height: 40px;
+}
+
+.order-shipped-product-image img {
+  object-fit: contain;
+  width: 70px;
+}
+
+.order-shipped-product-title {
+  margin-left: 6px;
+  text-align: justify;
+  width: calc(60% - 76px);
+}
+
+.order-shipped-product-quantity {
+  text-align: center;
+  width: 8%;
+}
+
+.order-shipped-product-price{
+  text-align: center;
+  white-space: nowrap;
+  width: 16%;
+}
+
+.order-shipped-product-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
 
 .order-shipped-payment {
-  /* border: 1px solid red; */
   display: flex;
   white-space: nowrap;
-  margin-top: 15px;
 }
 
 .order-shipped-payment h5 {
-  /* border: 1px solid red; */
-  /* height: 20px; */
-  /* display: flex; */
-  /* align-items: flex-end; */
   margin-bottom: -2.8px;
 }
 
@@ -82,16 +134,49 @@ hr {
   border: 2px solid rgb(97, 219, 251);
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 55%;
 }
 
-/* .lottie div {
-  border: 1px solid black;
-} */
-
-.lottie div:nth-child(1) {
-  /* border: 1px solid black; */
+.lottie-title {
   text-align: center;
   margin: 20px;
   width: 650px;
 }
+
+.lottie-component {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 65%;
+  width: 100%;
+}
+
+.lottie-component div:nth-child(1) {
+  cursor: pointer;
+}
+
+.order-shipped-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.order-shipped-btn button{
+  background-color: rgb(62, 121, 208);
+  border: none;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  margin: 30px;
+  padding: 15px 45px;
+}
+
+.order-shipped-btn button:hover{
+  background-color: rgb(45, 102, 188);
+  transition: 0.2s;
+}
+
+/* .order-shipped-person h4:nth-child(n + 2) {
+  border: 1px solid blue;
+  font-size: 13px;
+  margin: 15px 0;
+} */

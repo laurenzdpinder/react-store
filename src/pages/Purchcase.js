@@ -23,6 +23,8 @@ const inputs = {
   city: '',
   state: '',
   paymentMethod: '',
+  orderNumber: '',
+  orderDate: '',
 };
 
 const validation = {
@@ -113,8 +115,23 @@ function Purchcase() {
     return array.every((e) => e === 0);
   };
 
+  const orderNumber = () => Math.round(Math.random() * (9999 - 1) + 1).toString().padStart(4, '0');
+
+  const currentDate = () => {
+    const date = new Date();
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const purchcaseDate = `${day}/${month}/${year} - ${hour}:${minutes}`;
+    return purchcaseDate;
+  };
+
   const handleBuyBtnOnClick = () => {
     if (createArrayOfValidation() && products.length > 0) {
+      inputsOnChange.orderNumber = orderNumber();
+      inputsOnChange.orderDate = currentDate();
       addBuyerInfo(inputsOnChange);
       navigate('/ordershipped');
     }
