@@ -4,16 +4,16 @@ import Lottie from 'react-lottie-player';
 import lottieJson from '../animationData.json';
 import Loading from '../components/Loading';
 import getTotalPrice from '../helpers/getTotalPrice';
-// eslint-disable-next-line import/named
-import { getBuyerInfo, getProductsCart } from '../helpers/localStorageCart';
+import { getBuyerInfo, getProductsCart, getUsername } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/OrderShipped.css';
 
 function OrderShipped() {
   const [buyer, setBuyer] = useState([]);
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isOnMouseOver, setIsOnMouseOver] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [speed, setSpeed] = useState(1.5);
+  const [userName, setUserName] = useState('');
 
   const {
     address, city, complement, cep, cpf, email, firstname, number,
@@ -24,17 +24,26 @@ function OrderShipped() {
     const retrieverOrderInfo = async () => {
       setLoading(true);
 
-      const [buyerInfo, productsCart] = await Promise.all([
-        getBuyerInfo(), getProductsCart(),
+      const [buyerInfo, productsCart, user] = await Promise.all([
+        getBuyerInfo(), getProductsCart(), getUsername(),
       ]);
 
       // setTimeout(() => setLoading(false), 1000);
       setBuyer(buyerInfo);
       setProducts(productsCart);
+      setUserName(user);
       setLoading(false);
     };
     retrieverOrderInfo();
   }, []);
+
+  console.log(userName);
+
+  useEffect(() => {
+    if (userName.length > 0) {
+      console.log('entrei');
+    }
+  }, [userName]);
 
   const checkComplement = () => {
     if (complement) {
@@ -43,12 +52,8 @@ function OrderShipped() {
     return '';
   };
 
-  const increaseSpeed = () => setIsOnMouseOver(true);
-  const decreaseSpeed = () => setIsOnMouseOver(false);
-
-  const speed = () => {
-    if (isOnMouseOver) return 3.5;
-    return 1.5;
+  const handleBtnOnCLick = () => {
+    console.log('cliquei');
   };
 
   return (
@@ -168,9 +173,9 @@ function OrderShipped() {
                   loop
                   animationData={lottieJson}
                   play
-                  speed={speed()}
-                  onMouseOver={increaseSpeed}
-                  onMouseOut={decreaseSpeed}
+                  speed={speed}
+                  onMouseOver={() => setSpeed(3.5)}
+                  onMouseOut={() => setSpeed(1.5)}
                   style={{ width: 350, height: 350 }}
                 />
               </div>
@@ -181,6 +186,7 @@ function OrderShipped() {
       }
       <div className="order-shipped-btn">
         <button
+          onClick={handleBtnOnCLick}
           type="button"
         >
           Home
