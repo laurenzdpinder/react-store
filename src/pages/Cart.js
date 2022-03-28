@@ -121,17 +121,19 @@ function Cart() {
 
             <div className="cart-summary-container">
               <div className="order-summary">
-                <h2>Resumo do Pedido</h2>
+                {/* <h2>Resumo do Pedido</h2> */}
                 <div className="order-summary-price">
                   {
                   productsQuantity > 1
                     ? <h3>{ `Total (${productsQuantity} itens):` }</h3>
                     : <h3>{ `Total (${productsQuantity} item):` }</h3>
                   }
-                  {
-                  getTotalPrice(products) !== getTotalOriginalPrice(products)
-                    && <h5>{ `R$ ${getTotalOriginalPrice(products)}` }</h5>
-                  }
+                  <div className="order-summary-original-price">
+                    {
+                    getTotalPrice(products) !== getTotalOriginalPrice(products)
+                      && <h5>{ `R$ ${getTotalOriginalPrice(products)}` }</h5>
+                    }
+                  </div>
                   <h3>{ `R$ ${getTotalPrice(products)}` }</h3>
                 </div>
                 <button

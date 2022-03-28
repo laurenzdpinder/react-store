@@ -125,7 +125,8 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  /* height: 350px; */
+  height: 170px;
   padding: 20px 15px;
   width: 250px;
 }
@@ -137,20 +138,19 @@
 }
 
 .order-summary-price {
-  margin: 30px 5px;
+  /* margin: 30px 5px; */
+  margin: 0 5px 10px 5px;
 }
 
 .order-summary-original-price {
-  display: flex;
+  color: rgb(102, 102, 102, 0.5);
+  height: 16px;
+  text-decoration: line-through;
 }
 
 .order-summary-price h3:first-child {
-  margin-bottom: 10px;
-}
-
-.order-summary-price h5 {
-  color: rgb(102, 102, 102, 0.5);
-  text-decoration: line-through;
+  border-bottom: 1px solid black;
+  margin-bottom: 7px;
 }
 
 .order-summary-price h3:last-child {
