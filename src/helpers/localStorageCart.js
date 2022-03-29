@@ -36,7 +36,14 @@ export const addUsername = (username) => {
 export const addOrder = (order) => {
   const profile = getItem(LOGIN);
   if (profile.length > 0) {
-    profile[0].order = order;
+    if (!profile[0].orders.length) {
+      profile[0].orders = [{ order0: order }];
+    } else {
+      const prevOrders = profile[0].orders;
+      const i = profile[0].orders.length;
+      const currentOrder = `order${i}`;
+      profile[0].orders = [...prevOrders, { [currentOrder]: order }];
+    }
     setItem(LOGIN, profile);
   }
 };
