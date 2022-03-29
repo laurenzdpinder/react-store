@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Purchcase from './pages/Purchcase';
 import OrderShipped from './pages/OrderShipped';
+import MyOrders from './pages/MyOrders';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/purchcase" element={<Purchcase />} />
         <Route path="/ordershipped" element={<OrderShipped />} />
+        <Route path="/myorders" element={<MyOrders />} />
       </Routes>
     </Provider>
   );
