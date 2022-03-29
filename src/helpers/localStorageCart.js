@@ -7,7 +7,7 @@ if (!JSON.parse(localStorage.getItem(PRODUCTS_CART_KEY))) {
 }
 
 if (!JSON.parse(localStorage.getItem(LOGIN))) {
-  localStorage.setItem(LOGIN, JSON.stringify(''));
+  localStorage.setItem(LOGIN, JSON.stringify([]));
 }
 
 if (!JSON.parse(localStorage.getItem(BUYER_INFO))) {
@@ -30,7 +30,15 @@ export const getBuyerInfo = () => {
 };
 
 export const addUsername = (username) => {
-  setItem(LOGIN, username);
+  setItem(LOGIN, [username]);
+};
+
+export const addOrder = (order) => {
+  const profile = getItem(LOGIN);
+  if (profile.length > 0) {
+    profile[0].order = order;
+    setItem(LOGIN, profile);
+  }
 };
 
 export const getUsername = () => {

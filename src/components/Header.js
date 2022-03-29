@@ -15,7 +15,7 @@ function Header() {
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
   const [login, setLogin] = useState({ username: '', password: '' });
   const [loadingAccess, setLoadingAccess] = useState(true);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState([]);
 
   const navigate = useNavigate();
 
@@ -84,25 +84,29 @@ function Header() {
     navigate('/');
   };
 
+  // set userName to localStorage
   const handleLoginBtnOnClick = () => {
     if (username && password) {
-      addUsername(username);
+      addUsername({ username });
       setLogin({ username, password: '' });
     }
   };
 
+  // set userName to localStorage
   const handleLoginOutBtnOnClick = () => {
-    addUsername('');
+    localStorage.removeItem('login');
+    // addUsername('');
     setLogin({ username: '', password: '' });
   };
 
   const createUserAccessJSX = () => {
     if (loadingAccess) return null;
-    if (user) {
+    if (user.length) {
+      // console.log(user.length);
       return (
         <div className="user-access welcome">
           <h4>Boas-Vindas</h4>
-          <h4>{`${user} !`}</h4>
+          <h4>{`${user[0].username} !`}</h4>
         </div>
       );
     }

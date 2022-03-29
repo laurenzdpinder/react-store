@@ -5,7 +5,7 @@ import { MdPayment } from 'react-icons/md';
 import {
   RiBankLine, RiBarcodeLine, RiMastercardLine, RiVisaLine,
 } from 'react-icons/ri';
-import { addBuyerInfo, getProductsCart } from '../helpers/localStorageCart';
+import { addBuyerInfo, addOrder, getProductsCart } from '../helpers/localStorageCart';
 import getTotalPrice from '../helpers/getTotalPrice';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/Purchcase.css';
@@ -132,6 +132,7 @@ function Purchcase() {
     if (createArrayOfValidation() && products.length > 0) {
       inputsOnChange.orderNumber = orderNumber();
       inputsOnChange.orderDate = currentDate();
+      addOrder([inputsOnChange, products]);
       addBuyerInfo(inputsOnChange);
       navigate('/ordershipped');
     }
@@ -419,7 +420,7 @@ function Purchcase() {
                   value="Débito"
                 />
                 <div className="payment-method-type">
-                  <div><h6><MdPayment /></h6></div>
+                  <div><h6 id="debit"><MdPayment /></h6></div>
                   <div>
                     <h5>Débito</h5>
                     <p>Aprovação imediata</p>
@@ -438,7 +439,7 @@ function Purchcase() {
                   value="Transferência Bancária"
                 />
                 <div className="payment-method-type">
-                  <div><h6><RiBankLine /></h6></div>
+                  <div><h6 id="bank"><RiBankLine /></h6></div>
                   <div>
                     <h5>Transferência Bancária</h5>
                     <p>Aprovação em até 2 horas</p>

@@ -4,7 +4,9 @@ import Lottie from 'react-lottie-player';
 import lottieJson from '../animationData.json';
 import Loading from '../components/Loading';
 import getTotalPrice from '../helpers/getTotalPrice';
-import { getBuyerInfo, getProductsCart, getUsername } from '../helpers/localStorageCart';
+import {
+  getBuyerInfo, getProductsCart, getUsername,
+} from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/OrderShipped.css';
 
@@ -13,7 +15,7 @@ function OrderShipped() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [speed, setSpeed] = useState(1.5);
-  const [userName, setUserName] = useState('');
+  const [profile, setProfile] = useState('');
 
   const {
     address, city, complement, cep, cpf, email, firstname, number,
@@ -31,19 +33,19 @@ function OrderShipped() {
       // setTimeout(() => setLoading(false), 1000);
       setBuyer(buyerInfo);
       setProducts(productsCart);
-      setUserName(user);
+      setProfile(user);
       setLoading(false);
     };
     retrieverOrderInfo();
   }, []);
 
-  console.log(userName);
+  // console.log(profile);
 
-  useEffect(() => {
-    if (userName.length > 0) {
-      console.log('entrei');
-    }
-  }, [userName]);
+  // useEffect(() => {
+  //   if (profile.length > 0) {
+  //     console.log('entrei', profile);
+  //   }
+  // }, [profile]);
 
   const checkComplement = () => {
     if (complement) {
