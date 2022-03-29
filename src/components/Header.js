@@ -15,7 +15,7 @@ function Header() {
   const [filtersOnChange, setFiltersOnChange] = useState({ input: '', select: '' });
   const [login, setLogin] = useState({ username: '', password: '' });
   const [loadingAccess, setLoadingAccess] = useState(true);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([{ username: '', orders: '' }]);
 
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ function Header() {
       setLoadingAccess(true);
       const name = await getUsername();
       if (name.length) setUser(name);
-      if (!name.length) setUser('');
+      if (!name.length) setUser([{ username: '', orders: '' }]);
       setLoadingAccess(false);
     };
     retrieverUsername();
@@ -95,8 +95,8 @@ function Header() {
   // set userName to localStorage
   const handleLoginOutBtnOnClick = () => {
     localStorage.removeItem('login');
-    // addUsername('');
     setLogin({ username: '', password: '' });
+    navigate('/');
   };
 
   const handleMyOrdersBtnOnClick = () => {
@@ -105,12 +105,11 @@ function Header() {
 
   const createUserAccessJSX = () => {
     if (loadingAccess) return null;
-    if (user.length) {
-      // console.log(user.length);
+    if (user[0].username.length) {
       return (
         <div className="user-access welcome">
           <h4>Boas-Vindas</h4>
-          <h4>{`${user[0].username} !`}</h4>
+          <h4>{`${user[0].username}!`}</h4>
         </div>
       );
     }
@@ -192,9 +191,12 @@ function Header() {
           <div className="user-access-container">
             {createUserAccessJSX()}
             {
-              user
+              user[0].username.length
                 ? (
                   <div id="acess-box">
+                    <div>
+                      <h4>{user[0].username}</h4>
+                    </div>
                     <button
                       onClick={handleMyOrdersBtnOnClick}
                       type="button"
