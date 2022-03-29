@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie-player';
 import lottieJson from '../animationData.json';
 import Loading from '../components/Loading';
 import getTotalPrice from '../helpers/getTotalPrice';
-import {
-  getBuyerInfo, getProductsCart, getUsername,
-} from '../helpers/localStorageCart';
+import { getBuyerInfo, getProductsCart, getUsername } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
 import '../assets/css/OrderShipped.css';
 
@@ -16,6 +15,8 @@ function OrderShipped() {
   const [products, setProducts] = useState([]);
   const [speed, setSpeed] = useState(1.5);
   const [profile, setProfile] = useState('');
+
+  const navigate = useNavigate();
 
   const {
     address, city, complement, cep, cpf, email, firstname, number,
@@ -41,11 +42,11 @@ function OrderShipped() {
 
   // console.log(profile);
 
-  // useEffect(() => {
-  //   if (profile.length > 0) {
-  //     console.log('entrei', profile);
-  //   }
-  // }, [profile]);
+  useEffect(() => {
+    if (profile.length > 0) {
+      // console.log(profile[0].username);
+    }
+  }, [profile]);
 
   const checkComplement = () => {
     if (complement) {
@@ -55,7 +56,7 @@ function OrderShipped() {
   };
 
   const handleBtnOnCLick = () => {
-    console.log('cliquei');
+    navigate('/');
   };
 
   return (
