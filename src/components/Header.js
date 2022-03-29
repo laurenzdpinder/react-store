@@ -87,7 +87,7 @@ function Header() {
   // set userName to localStorage
   const handleLoginBtnOnClick = () => {
     if (username && password) {
-      addUsername({ username });
+      addUsername({ username, orders: '' });
       setLogin({ username, password: '' });
     }
   };
@@ -97,6 +97,10 @@ function Header() {
     localStorage.removeItem('login');
     // addUsername('');
     setLogin({ username: '', password: '' });
+  };
+
+  const handleMyOrdersBtnOnClick = () => {
+    navigate('/myorders');
   };
 
   const createUserAccessJSX = () => {
@@ -191,6 +195,12 @@ function Header() {
               user
                 ? (
                   <div id="acess-box">
+                    <button
+                      onClick={handleMyOrdersBtnOnClick}
+                      type="button"
+                    >
+                      Meus Pedidos
+                    </button>
                     <button
                       onClick={handleLoginOutBtnOnClick}
                       type="button"
