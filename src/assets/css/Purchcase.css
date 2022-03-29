@@ -108,6 +108,16 @@
   outline: none;
 }
 
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+  box-shadow: 0 0 0 30px white inset;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px white inset, 0px 0px 5px rgb(97, 219, 251);
+  box-shadow: 0 0 0 30px white inset, 0px 0px 5px rgb(97, 219, 251);
+}
+
 .purchcase-authentication h5 {
   align-items: center;
   color: rgb(255, 0, 0);
