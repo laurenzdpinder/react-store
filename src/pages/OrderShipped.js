@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie-player';
 import lottieJson from '../animationData.json';
 import Loading from '../components/Loading';
+import MyContext from '../context/MyContext';
 import getTotalPrice from '../helpers/getTotalPrice';
 import { getBuyerInfo, getProductsCart, getUsername } from '../helpers/localStorageCart';
 import getHdImage from '../helpers/hdImage';
@@ -15,6 +16,8 @@ function OrderShipped() {
   const [products, setProducts] = useState([]);
   const [speed, setSpeed] = useState(1.5);
   const [profile, setProfile] = useState('');
+
+  const { setProductsQuantity } = useContext(MyContext);
 
   const navigate = useNavigate();
 
@@ -42,11 +45,11 @@ function OrderShipped() {
 
   // console.log(profile);
 
-  useEffect(() => {
-    if (profile.length > 0) {
-      // console.log(profile[0].username);
-    }
-  }, [profile]);
+  // useEffect(() => {
+  //   if (profile.length > 0) {
+  //     console.log(profile[0].username);
+  //   }
+  // }, [profile]);
 
   const checkComplement = () => {
     if (complement) {
@@ -56,6 +59,8 @@ function OrderShipped() {
   };
 
   const handleBtnOnCLick = () => {
+    setProductsQuantity(0);
+    localStorage.removeItem('products_cart');
     navigate('/');
   };
 

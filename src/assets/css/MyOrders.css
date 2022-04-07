@@ -1,4 +1,71 @@
-.my-orders {
-  border: 1px solid black;
+.my-orders-container {
+  /* border: 1px solid black; */
   margin: 30px;
+}
+
+.my-order {
+  background-color: rgba(255, 255, 255);
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin: 20px 180px;
+}
+
+.my-order-Date {
+  display: flex;
+  border-bottom: 1px solid black;
+  /* justify-content: center; */
+  margin-top: 10px;
+}
+
+.my-order-Date div:nth-child(1) {
+  margin-right: 6px;
+}
+
+.my-order-info {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+}
+
+.my-order-summary {
+  /* border: 1px solid green; */
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 10px 0;
+}
+
+.my-order-image {
+  background-color: rgba(255, 255, 255);
+  display: flex;
+  height: 100px;
+}
+
+.my-order-image img {
+  object-fit: contain;
+  width: 150px;
+}
+
+.my-order-title {
+  align-items: center;
+  /* border: 1px solid black; */
+  display: flex;
+  text-align: justify;
+  margin: 0 100px;
+  width: 450px;
+}
+
+.my-order-button {
+  align-items: center;
+  /* border: 1px solid black; */
+  display: flex;
+  white-space: nowrap;
+  margin: 10px 0;
+}
+
+.my-order-button button {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 15px 20px;
 }
