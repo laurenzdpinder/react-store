@@ -15,10 +15,6 @@ function MyOrders() {
     retrieverOrders();
   }, []);
 
-  if (history[0].orders.length) {
-    console.log(history[0].orders[0].order[1].map(({ id }) => id));
-  }
-
   return (
     <>
       <Header />
@@ -56,7 +52,7 @@ function MyOrders() {
               </div>
             )
             : (
-              <div><h1>Você ainda não possui nenhuma compra!</h1></div>
+              <div className="empty-orders"><h2>Você ainda não possui nenhuma compra!</h2></div>
             )
         }
       </div>
