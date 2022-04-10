@@ -64,10 +64,17 @@
 }
 
 .my-order-button button {
+  background-color: rgb(62, 121, 208);
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  padding: 15px 20px;
+  color: rgb(255, 255, 255);
+  padding: 15px 25px;
+}
+
+.my-order-button button:hover{
+  background-color: rgb(45, 102, 188);
+  transition: 0.2s;
 }
 
 .empty-orders {
