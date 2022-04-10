@@ -1,11 +1,9 @@
 .my-orders-container {
-  /* border: 1px solid black; */
   margin: 30px;
 }
 
 .my-order {
   background-color: rgba(255, 255, 255);
-  /* border: 1px solid black; */
   border-radius: 10px;
   padding: 20px 40px;
   margin: 20px 180px;
@@ -14,7 +12,6 @@
 .my-order-Date {
   display: flex;
   border-bottom: 1px solid black;
-  /* justify-content: center; */
   margin-top: 10px;
 }
 
@@ -23,15 +20,12 @@
 }
 
 .my-order-info {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: center;
 }
 
 .my-order-summary {
-  /* border: 1px solid green; */
   display: flex;
-  /* justify-content: space-between; */
   margin: 10px 0;
 }
 
@@ -48,7 +42,6 @@
 
 .my-order-title {
   align-items: center;
-  /* border: 1px solid black; */
   display: flex;
   text-align: justify;
   margin: 0 100px;
@@ -57,7 +50,6 @@
 
 .my-order-button {
   align-items: center;
-  /* border: 1px solid black; */
   display: flex;
   white-space: nowrap;
   margin: 10px 0;
