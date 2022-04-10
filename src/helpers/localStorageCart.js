@@ -48,6 +48,10 @@ export const addOrder = (order) => {
   }
 };
 
+export const addOrderShippedProducts = (order) => {
+  setItem(PRODUCTS_CART_KEY, order);
+};
+
 export const getUsername = () => {
   const login = getItem(LOGIN);
   return login;
