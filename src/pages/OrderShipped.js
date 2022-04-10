@@ -11,7 +11,7 @@ import getHdImage from '../helpers/hdImage';
 import '../assets/css/OrderShipped.css';
 
 function OrderShipped() {
-  const [buyer, setBuyer] = useState([]);
+  const [buyer, setBuyer] = useState({});
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [speed, setSpeed] = useState(1.5);
@@ -60,6 +60,7 @@ function OrderShipped() {
 
   const handleBtnOnCLick = () => {
     setProductsQuantity(0);
+    localStorage.removeItem('buyer_info');
     localStorage.removeItem('products_cart');
     navigate('/');
   };
@@ -76,8 +77,21 @@ function OrderShipped() {
                 <h3>DADOS DE ENTREGA</h3>
 
                 <div>
-                  <h5>{`NÚMERO DO PEDIDO: ${orderNumber}`}</h5>
-                  <h5>{`DATA DA COMPRA: ${orderDate}`}</h5>
+                  {
+                    Object.keys(buyer).length
+                      ? (
+                        <>
+                          <h5>{`NÚMERO DO PEDIDO: ${orderNumber}`}</h5>
+                          <h5>{`DATA DA COMPRA: ${orderDate}`}</h5>
+                        </>
+                      )
+                      : (
+                        <>
+                          <h5>NÚMERO DO PEDIDO:</h5>
+                          <h5>DATA DA COMPRA:</h5>
+                        </>
+                      )
+                  }
                 </div>
 
                 <h4>INFORMAÇÕES PESSOAIS</h4>
@@ -86,41 +100,63 @@ function OrderShipped() {
                   <div>
                     <h5>NOME COMPLETO</h5>
                     <hr />
-                    <h5>{`${firstname.toUpperCase()}  ${surname.toUpperCase()}`}</h5>
+                    {
+                      Object.keys(buyer).length
+                        ? <h5>{`${firstname.toUpperCase()}  ${surname.toUpperCase()}`}</h5>
+                        : null
+                    }
                   </div>
 
                   <div>
                     <h5>CPF</h5>
                     <hr />
-                    <h5>{cpf.replace(/[^0-9.-]/g, '')}</h5>
+                    {
+                      Object.keys(buyer).length
+                        ? <h5>{cpf.replace(/[^0-9.-]/g, '')}</h5>
+                        : null
+                    }
                   </div>
 
                   <div>
                     <h5>EMAIL</h5>
                     <hr />
-                    <h5>{email.toUpperCase()}</h5>
+                    {
+                      Object.keys(buyer).length
+                        ? <h5>{email.toUpperCase()}</h5>
+                        : null
+                    }
                   </div>
 
                   <div>
                     <h5>TELEFONE</h5>
                     <hr />
-                    <h5>{phone.replace(/[^0-9()-]/g, '')}</h5>
+                    {
+                      Object.keys(buyer).length
+                        ? <h5>{phone.replace(/[^0-9()-]/g, '')}</h5>
+                        : null
+                    }
                   </div>
                 </div>
 
                 <h4>ENDEREÇO</h4>
 
                 <div className="address">
-                  <h5>
-                    {
-                      `${address.toUpperCase()},
-                      NÚMERO: ${number.replace(/[^0-9]/g, '')},
-                      ${checkComplement()}
-                      MUNICÍPIO: ${city.toUpperCase()},
-                      UF: ${state},
-                      CEP: ${cep.replace(/[^0-9.-]/g, '')}`
+                  {
+                    Object.keys(buyer).length
+                      ? (
+                        <h5>
+                          {
+                          `${address.toUpperCase()},
+                          NÚMERO: ${number.replace(/[^0-9]/g, '')},
+                          ${checkComplement()}
+                          MUNICÍPIO: ${city.toUpperCase()},
+                          UF: ${state},
+                          CEP: ${cep.replace(/[^0-9.-]/g, '')}`
+                        }
+                        </h5>
+                      )
+                      : null
                     }
-                  </h5>
                 </div>
               </div>
 
@@ -134,30 +170,31 @@ function OrderShipped() {
                 </div>
                 {
                   products.length
-                  && products.map(({
-                    id, quantity, price, thumbnail, title,
-                  }) => (
-                    <div
-                      className="order-shipped-product"
-                      key={`order-shipped-${id}`}
-                    >
-                      <div className="order-shipped-product-image">
-                        <img src={getHdImage(thumbnail)} alt={title} />
+                    ? products.map(({
+                      id, quantity, price, thumbnail, title,
+                    }) => (
+                      <div
+                        className="order-shipped-product"
+                        key={`order-shipped-${id}`}
+                      >
+                        <div className="order-shipped-product-image">
+                          <img src={getHdImage(thumbnail)} alt={title} />
+                        </div>
+                        <div className="order-shipped-product-title">
+                          <h6>{title}</h6>
+                        </div>
+                        <div className="order-shipped-product-quantity">
+                          <h6>{quantity}</h6>
+                        </div>
+                        <div className="order-shipped-product-price">
+                          <h6>{ `R$ ${price.toFixed(2)}` }</h6>
+                        </div>
+                        <div className="order-shipped-product-price">
+                          <h6>{ `R$ ${(quantity * price).toFixed(2)}` }</h6>
+                        </div>
                       </div>
-                      <div className="order-shipped-product-title">
-                        <h6>{title}</h6>
-                      </div>
-                      <div className="order-shipped-product-quantity">
-                        <h6>{quantity}</h6>
-                      </div>
-                      <div className="order-shipped-product-price">
-                        <h6>{ `R$ ${price.toFixed(2)}` }</h6>
-                      </div>
-                      <div className="order-shipped-product-price">
-                        <h6>{ `R$ ${(quantity * price).toFixed(2)}` }</h6>
-                      </div>
-                    </div>
-                  ))
+                    ))
+                    : null
                 }
                 <div className="order-shipped-product-total">
                   <h5>TOTAL</h5>
@@ -167,7 +204,11 @@ function OrderShipped() {
                 <div className="order-shipped-payment">
                   <h5>MÉTODO DE PAGAMENTO</h5>
                   <hr />
-                  <h5>{paymentMethod.toUpperCase()}</h5>
+                  {
+                    Object.keys(buyer).length
+                      ? <h5>{paymentMethod.toUpperCase()}</h5>
+                      : null
+                  }
                 </div>
               </div>
             </div>
