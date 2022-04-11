@@ -21,8 +21,6 @@
 .product-card:hover {
   box-shadow: 0 0 20px rgb(97, 219, 251);
   outline: 2px solid rgb(97, 219, 251, 07);
-  /* box-shadow: 0 0 20px rgb(62, 121, 208);
-  outline: 2px solid rgba(62, 120, 208, 0.7); */
   transform: scale(1.025);
   transition: 0.2s;
 }
