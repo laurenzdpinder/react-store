@@ -18,6 +18,25 @@ function MyOrders() {
     retrieverOrders();
   }, []);
 
+  const convertMonth = (month) => {
+    const i = Number(month) - 1;
+    const months = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
+    ];
+    return months[i];
+  };
+
+  const getDate = (order) => {
+    if (history[0].orders.length) {
+      const date = (order[0].orderDate).split('-')[0];
+      const [day, month, year] = date.split('/');
+      const newDate = `${day}/${convertMonth(month)}/${year}`;
+      return newDate.replace(/\//g, ' de ');
+    }
+    return null;
+  };
+
   const handleBtnOnClick = ({ target }) => {
     const { id } = target;
     const orderShipped = history[0].orders[id].order;
@@ -40,7 +59,7 @@ function MyOrders() {
                     <div className="my-order" key={`my-orders-${order[0].orderNumber}-${order[0].orderDate}`}>
                       <div className="my-order-Date">
                         <div><h4>{`Pedido nº ${order[0].orderNumber} -`}</h4></div>
-                        <div><h4>{`${(order[0].orderDate).split('-')[0].replace(/\//g, ' de ')}`}</h4></div>
+                        <div><h4>{getDate(order)}</h4></div>
                       </div>
 
                       <div className="my-order-info">
