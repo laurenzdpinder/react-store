@@ -7,8 +7,7 @@ import ProductCard from '../components/ProductCard';
 import '../assets/css/Home.css';
 
 function Home() {
-  const { filters } = useContext(MyContext);
-  const { offset } = useContext(MyContext);
+  const { filters, offset } = useContext(MyContext);
 
   const [loading, setLoading] = useState(true);
   const [paging, setPaging] = useState({});

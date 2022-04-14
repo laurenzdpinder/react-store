@@ -44,13 +44,25 @@ function ProductDetails() {
     }
   }, [quantity, isSelectOn]);
 
+  const alert = document.querySelector('.product-details-message');
+
+  const renderAlert = () => {
+    alert.style.visibility = 'visible';
+  };
+
+  // render alert
   // set product to localStorage & set filters/products quantity to Context
   // set 0 to offset & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
+    if (quantity > availableQuantity) {
+      return renderAlert();
+    }
+
     if (quantity > 0) {
       addProduct({
         id, originalPrice, price, quantity, thumbnail, title,
       });
+
       setFilters({ input: 'Computador', select: '' });
 
       const productsQuantity = getProductsQuantity();
@@ -64,11 +76,20 @@ function ProductDetails() {
         navigate('/cart');
       }
     }
+    return null;
   };
 
-  // create array of numbers - from 1 to 5
-  const arrayOfNumbers = [...Array(6).keys()];
-  arrayOfNumbers.shift();
+  // create array of numbers
+  const getArrayOfNumbers = (q) => {
+    if (q >= 6) {
+      const arrayOfNumbers = [...Array(6).keys()];
+      arrayOfNumbers.shift();
+      return arrayOfNumbers;
+    }
+    const arrayOfNumbers = [...Array(q + 1).keys()];
+    arrayOfNumbers.shift();
+    return arrayOfNumbers;
+  };
 
   return (
     <>
@@ -78,6 +99,16 @@ function ProductDetails() {
         Object.keys(product).length > 0
           ? (
             <div className="product-details-container">
+              <div className="product-details-message">
+                <h3>{`Apenas ${availableQuantity} unidades deste produto estão disponíveis!`}</h3>
+                <button
+                  onClick={() => { alert.style.visibility = 'hidden'; }}
+                  type="button"
+                >
+                  Ok
+                </button>
+              </div>
+
               <div className="product-details-image">
                 <img src={getHdImage(thumbnail)} alt={title} />
               </div>
@@ -140,13 +171,15 @@ function ProductDetails() {
                         value={quantity}
                       >
                         {
-                          arrayOfNumbers.map((number) => (
+                          getArrayOfNumbers(availableQuantity).map((number) => (
                             <option key={`option${number}`} value={number}>
                               { `0${number}` }
                             </option>
                           ))
                         }
-                        <option value="6">+ 6</option>
+                        {
+                          availableQuantity >= 6 && <option value="6">+ 6</option>
+                        }
                       </select>
                     )
                     : (
@@ -178,7 +211,7 @@ function ProductDetails() {
               </div>
             </div>
           ) : <Loading />
-      }
+        }
       </div>
     </>
   );
