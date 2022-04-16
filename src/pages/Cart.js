@@ -15,6 +15,7 @@ function Cart() {
   const { productsQuantity, setProductsQuantity } = useContext(MyContext);
 
   const [products, setProducts] = useState([]);
+  const [availableUnits, setAvailableUnits] = useState(0);
 
   const navigate = useNavigate();
 
@@ -29,6 +30,20 @@ function Cart() {
     retrieveProductsCart();
   }, [productsQuantity]);
 
+  const renderAlert = () => {
+    document.querySelector('.cart-alert').style.visibility = 'visible';
+  };
+
+  const teste = (id, pq, q, a) => {
+    if (q + 1 > a) {
+      setAvailableUnits(a);
+      return renderAlert(a);
+    }
+    increaseProductQuantity(id);
+    setProductsQuantity(pq + 1);
+    return null;
+  };
+
   const handleBtnOnClick = () => {
     navigate('/purchcase');
   };
@@ -40,10 +55,26 @@ function Cart() {
       products.length > 0
         ? (
           <div className="cart">
+            <div
+              className="cart-alert"
+            >
+              {
+                availableUnits > 1
+                  ? <h3>{`Apenas ${availableUnits} unidades deste produto estão disponíveis!`}</h3>
+                  : <h3>{`Apenas ${availableUnits} unidade deste produto está disponível!`}</h3>
+              }
+              <button
+                onClick={() => { document.querySelector('.cart-alert').style.visibility = 'hidden'; }}
+                type="button"
+              >
+                Ok
+              </button>
+            </div>
+
             <main className="cart-products">
               {
               products.map(({
-                id, quantity, originalPrice, price, thumbnail, title,
+                availableQuantity, id, quantity, originalPrice, price, thumbnail, title,
               }) => (
                 <div
                   className="cart-product"
@@ -79,10 +110,11 @@ function Cart() {
                           <p>{ quantity }</p>
 
                           <button
-                            onClick={() => {
-                              increaseProductQuantity(id);
-                              setProductsQuantity(productsQuantity + 1);
-                            }}
+                            // onClick={() => {
+                            //   increaseProductQuantity(id);
+                            //   setProductsQuantity(productsQuantity + 1);
+                            // }}
+                            onClick={() => teste(id, productsQuantity, quantity, availableQuantity)}
                             type="button"
                           >
                             +

@@ -9,7 +9,7 @@
   width: 90%;
 }
 
-.product-details-message {
+.product-details-alert {
   align-items: center;
   background-color: rgba(255, 255, 255);
   border: 2px solid rgba(97, 219, 251);
@@ -22,13 +22,13 @@
   visibility: hidden;
 }
 
-.product-details-message h3 {
+.product-details-alert h3 {
   color: rgb(51, 51, 51);
   margin-bottom: 30px;
   text-align: center;
 }
 
-.product-details-message button {
+.product-details-alert button {
   background-color: rgb(97, 219, 251);
   border: none;
   border-radius: 10px;
@@ -37,7 +37,7 @@
   padding: 15px;
 }
 
-.product-details-message button:hover {
+.product-details-alert button:hover {
   background-color: rgb(21, 201, 246);
 }
 

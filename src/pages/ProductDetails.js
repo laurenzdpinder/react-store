@@ -44,7 +44,7 @@ function ProductDetails() {
     }
   }, [quantity, isSelectOn]);
 
-  const alert = document.querySelector('.product-details-message');
+  const alert = document.querySelector('.product-details-alert');
 
   const renderAlert = () => {
     alert.style.visibility = 'visible';
@@ -60,7 +60,7 @@ function ProductDetails() {
 
     if (quantity > 0) {
       addProduct({
-        id, originalPrice, price, quantity, thumbnail, title,
+        availableQuantity, id, originalPrice, price, quantity, thumbnail, title,
       });
 
       setFilters({ input: 'Computador', select: '' });
@@ -99,7 +99,7 @@ function ProductDetails() {
         Object.keys(product).length > 0
           ? (
             <div className="product-details-container">
-              <div className="product-details-message">
+              <div className="product-details-alert">
                 <h3>{`Apenas ${availableQuantity} unidades deste produto estão disponíveis!`}</h3>
                 <button
                   onClick={() => { alert.style.visibility = 'hidden'; }}
