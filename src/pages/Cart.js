@@ -15,7 +15,7 @@ function Cart() {
   const { productsQuantity, setProductsQuantity } = useContext(MyContext);
 
   const [products, setProducts] = useState([]);
-  const [availableUnits, setAvailableUnits] = useState(0);
+  const [units, setUnits] = useState(0);
 
   const navigate = useNavigate();
 
@@ -30,23 +30,41 @@ function Cart() {
     retrieveProductsCart();
   }, [productsQuantity]);
 
+  useEffect(() => {}, [units]);
+
   const renderAlert = () => {
-    document.querySelector('.cart-alert').style.visibility = 'visible';
+    const alert = document.querySelector('.cart-alert');
+    alert.style.visibility = 'visible';
+    alert.parentNode.style.visibility = 'visible';
   };
 
-  const teste = (id, pq, q, a) => {
-    if (q + 1 > a) {
-      setAvailableUnits(a);
-      return renderAlert(a);
+  const handleRemoveBtn = (id, quantity) => {
+    removeProduct(id);
+    setProductsQuantity(productsQuantity - quantity);
+  };
+
+  const handleMinusBtn = (id) => {
+    decreaseProductQuantity(id);
+    setProductsQuantity(productsQuantity - 1);
+  };
+
+  const handlePlusBtn = (id, quantity, availableQuantity) => {
+    if (quantity + 1 > availableQuantity) {
+      setUnits(availableQuantity);
+      return renderAlert(availableQuantity);
     }
     increaseProductQuantity(id);
-    setProductsQuantity(pq + 1);
+    setProductsQuantity(productsQuantity + 1);
     return null;
   };
 
-  const handleBtnOnClick = () => {
-    navigate('/purchcase');
+  const handleAlertBtn = () => {
+    const alert = document.querySelector('.cart-alert');
+    alert.style.visibility = 'hidden';
+    alert.parentNode.style.visibility = 'hidden';
   };
+
+  const handleBtnOnClick = () => navigate('/purchcase');
 
   return (
     <>
@@ -55,105 +73,94 @@ function Cart() {
       products.length > 0
         ? (
           <div className="cart">
-            <div
-              className="cart-alert"
-            >
-              {
-                availableUnits > 1
-                  ? <h3>{`Apenas ${availableUnits} unidades deste produto estão disponíveis!`}</h3>
-                  : <h3>{`Apenas ${availableUnits} unidade deste produto está disponível!`}</h3>
-              }
-              <button
-                onClick={() => { document.querySelector('.cart-alert').style.visibility = 'hidden'; }}
-                type="button"
-              >
-                Ok
-              </button>
+            <div className="cart-alert-container">
+              <div className="cart-alert">
+                {
+                  units
+                    ? <h3>{`Apenas ${units} unidades deste produto estão disponíveis!`}</h3>
+                    : <h3>{`Apenas ${units} unidade deste produto está disponível!`}</h3>
+                }
+                <button
+                  onClick={handleAlertBtn}
+                  type="button"
+                >
+                  Ok
+                </button>
+              </div>
             </div>
 
             <main className="cart-products">
               {
-              products.map(({
-                availableQuantity, id, quantity, originalPrice, price, thumbnail, title,
-              }) => (
-                <div
-                  className="cart-product"
-                  key={`Cart-${id}`}
-                >
-                  <Link
-                    className="cart-product-image"
-                    to={`/productDetails/${id}`}
+                products.map(({
+                  availableQuantity, id, originalPrice, price, quantity, thumbnail, title,
+                }) => (
+                  <div
+                    className="cart-product"
+                    key={`Cart-${id}`}
                   >
-                    <img src={getHdImage(thumbnail)} alt={title} />
-                  </Link>
+                    <Link
+                      className="cart-product-image"
+                      to={`/productDetails/${id}`}
+                    >
+                      <img src={getHdImage(thumbnail)} alt={title} />
+                    </Link>
 
-                  <div className="cart-product-title">
-                    <h5>{ title }</h5>
+                    <div className="cart-product-title">
+                      <h5>{ title }</h5>
 
-                    <div>
-                      <h5>Quantidade:</h5>
+                      <div>
+                        <h5>Quantidade:</h5>
 
-                      <div className="cart-product-title-quantity">
-                        <div className="cart-product-title-quantity-amount">
+                        <div className="cart-product-title-quantity">
+                          <div className="cart-product-title-quantity-amount">
+                            <button
+                              onClick={() => handleMinusBtn(id)}
+                              type="button"
+                            >
+                              -
+                            </button>
+
+                            <p>{ quantity }</p>
+
+                            <button
+                              onClick={() => handlePlusBtn(id, quantity, availableQuantity)}
+                              type="button"
+                            >
+                              +
+                            </button>
+                          </div>
+
                           <button
-                            onClick={
-                                () => {
-                                  decreaseProductQuantity(id);
-                                  setProductsQuantity(productsQuantity - 1);
-                                }
-                            }
+                            onClick={() => handleRemoveBtn(id, quantity)}
                             type="button"
                           >
-                            -
-                          </button>
-
-                          <p>{ quantity }</p>
-
-                          <button
-                            // onClick={() => {
-                            //   increaseProductQuantity(id);
-                            //   setProductsQuantity(productsQuantity + 1);
-                            // }}
-                            onClick={() => teste(id, productsQuantity, quantity, availableQuantity)}
-                            type="button"
-                          >
-                            +
+                            remover
                           </button>
                         </div>
-
-                        <button
-                          onClick={() => {
-                            removeProduct(id);
-                            setProductsQuantity(productsQuantity - quantity);
-                          }}
-                          type="button"
-                        >
-                          remover
-                        </button>
                       </div>
                     </div>
-                  </div>
 
-                  <section className="cart-product-subtotal">
-                    <div className="cart-product-subtotal-original-price">
-                      { originalPrice && originalPrice !== price
-                          && (
-                            <>
-                              <h5>{`- ${calculateDiscount(quantity, originalPrice, price)}%`}</h5>
-                              <h5>{ `R$ ${(quantity * originalPrice).toFixed(2)}` }</h5>
-                            </>
-                          ) }
-                    </div>
-                    <h3 className="cart-product-subtotal-price">{ `R$ ${(quantity * price).toFixed(2)}` }</h3>
-                  </section>
-                </div>
-              ))
+                    <section className="cart-product-subtotal">
+                      <div className="cart-product-subtotal-original-price">
+                        {
+                          originalPrice && originalPrice !== price
+                            && (
+                              <>
+                                <h5>{`- ${calculateDiscount(quantity, originalPrice, price)}%`}</h5>
+                                <h5>{ `R$ ${(quantity * originalPrice).toFixed(2)}` }</h5>
+                              </>
+                            )
+                        }
+                      </div>
+                      <h3 className="cart-product-subtotal-price">{ `R$ ${(quantity * price).toFixed(2)}` }</h3>
+                    </section>
+                  </div>
+                ))
               }
             </main>
 
             <div className="cart-summary-container">
               <div className="order-summary">
-                {/* <h2>Resumo do Pedido</h2> */}
                 <div className="order-summary-price">
                   {
                   productsQuantity > 1

@@ -4,7 +4,7 @@ import MyContext from '../context/MyContext';
 import { getProductFromId } from '../services/api';
 import Loading from '../components/Loading';
 import getHdImage from '../helpers/hdImage';
-import { addProduct, getProductsQuantity } from '../helpers/localStorageCart';
+import { addProduct, getProductsCart, getProductsQuantity } from '../helpers/localStorageCart';
 import calculateDiscount from '../helpers/calculateDiscount';
 import '../assets/css/ProductDetails.css';
 import Header from '../components/Header';
@@ -13,6 +13,7 @@ function ProductDetails() {
   const { setFilters, setOffset, setProductsQuantity } = useContext(MyContext);
 
   const [product, setProduct] = useState({});
+  const [previousProduct, setPreviousProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isSelectOn, setIsSelectOn] = useState(true);
 
@@ -37,6 +38,15 @@ function ProductDetails() {
     fetchProduct();
   }, [id]);
 
+  // retrieve previousProduct
+  useEffect(() => {
+    const retrieveProducts = async () => {
+      const ProductsCart = await getProductsCart();
+      setPreviousProduct(ProductsCart.filter((e) => id === e.id));
+    };
+    retrieveProducts();
+  }, []);
+
   // toggle from select to input
   useEffect(() => {
     if (quantity === 6) {
@@ -48,15 +58,32 @@ function ProductDetails() {
 
   const renderAlert = () => {
     alert.style.visibility = 'visible';
+    alert.parentNode.style.visibility = 'visible';
+  };
+
+  const getAvailableQuantity = () => {
+    if (previousProduct.length) {
+      return availableQuantity - previousProduct[0].quantity;
+    }
+    return availableQuantity;
+  };
+
+  const createAvailableQuantityElement = () => {
+    if (getAvailableQuantity() > 1) { return <h4>{ `${getAvailableQuantity()} unidades disponíveis` }</h4>; }
+    if (getAvailableQuantity() === 1) { return <h4>Última unidade disponível</h4>; }
+    return <h3>Produto esgotado</h3>;
+  };
+
+  const handleAlertBtn = () => {
+    alert.style.visibility = 'hidden';
+    alert.parentNode.style.visibility = 'hidden';
   };
 
   // render alert
   // set product to localStorage & set filters/products quantity to Context
   // set 0 to offset & redirect Home or Cart page
   const handleBtnOnClick = ({ target }) => {
-    if (quantity > availableQuantity) {
-      return renderAlert();
-    }
+    if (quantity > getAvailableQuantity()) { return renderAlert(); }
 
     if (quantity > 0) {
       addProduct({
@@ -99,14 +126,16 @@ function ProductDetails() {
         Object.keys(product).length > 0
           ? (
             <div className="product-details-container">
-              <div className="product-details-alert">
-                <h3>{`Apenas ${availableQuantity} unidades deste produto estão disponíveis!`}</h3>
-                <button
-                  onClick={() => { alert.style.visibility = 'hidden'; }}
-                  type="button"
-                >
-                  Ok
-                </button>
+              <div className="product-details-alert-container">
+                <div className="product-details-alert">
+                  <h3>{`Apenas ${getAvailableQuantity()} unidades deste produto estão disponíveis!`}</h3>
+                  <button
+                    onClick={handleAlertBtn}
+                    type="button"
+                  >
+                    Ok
+                  </button>
+                </div>
               </div>
 
               <div className="product-details-image">
@@ -156,58 +185,69 @@ function ProductDetails() {
                 </div>
                 <h3>{ `R$ ${(price).toFixed(2)}` }</h3>
 
-                {
-                  availableQuantity > 1
-                    ? <h4>{ `${availableQuantity} unidades disponíveis` }</h4>
-                    : <h4>Última unidade disponível</h4>
-                }
-                <div className="product-details-quantity">
-                  <h4>Quantidade:</h4>
-                  { isSelectOn
-                    ? (
-                      <select
-                        // set select value
-                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                        value={quantity}
-                      >
-                        {
-                          getArrayOfNumbers(availableQuantity).map((number) => (
-                            <option key={`option${number}`} value={number}>
-                              { `0${number}` }
-                            </option>
-                          ))
-                        }
-                        {
-                          availableQuantity >= 6 && <option value="6">+ 6</option>
-                        }
-                      </select>
-                    )
-                    : (
-                      <input
-                        // eslint-disable-next-line jsx-a11y/no-autofocus
-                        autoFocus
-                        // set input value
-                        onChange={(({ target: { value } }) => setQuantity(Number(value)))}
-                        type="number"
-                        value={quantity > 0 ? quantity : ''}
-                      />
-                    ) }
-                </div>
+                { createAvailableQuantityElement() }
 
-                <div className="product-details-buttons">
-                  <button
-                    onClick={handleBtnOnClick}
-                    type="button"
-                  >
-                    Comprar agora
-                  </button>
-                  <button
-                    onClick={handleBtnOnClick}
-                    type="button"
-                  >
-                    Adicionar ao carrinho
-                  </button>
-                </div>
+                {
+                  getAvailableQuantity()
+                    ? (
+                      <div className="product-details-quantity">
+                        <h4>Quantidade:</h4>
+
+                        {
+                          isSelectOn
+                            ? (
+                              <select
+                                // set select value
+                                onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                                value={quantity}
+                              >
+                                {
+                                  getArrayOfNumbers(getAvailableQuantity()).map((number) => (
+                                    <option key={`option${number}`} value={number}>
+                                      { `0${number}` }
+                                    </option>
+                                  ))
+                                }
+
+                                {getAvailableQuantity() >= 6 && <option value="6">+ 6</option>}
+                              </select>
+                            )
+                            : (
+                              <input
+                                // eslint-disable-next-line jsx-a11y/no-autofocus
+                                autoFocus
+                                // set input value
+                                onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                                type="number"
+                                value={quantity > 0 ? quantity : ''}
+                              />
+                            )
+                          }
+                      </div>
+                    )
+                    : null
+                }
+
+                {
+                  getAvailableQuantity()
+                    ? (
+                      <div className="product-details-buttons">
+                        <button
+                          onClick={handleBtnOnClick}
+                          type="button"
+                        >
+                          Comprar agora
+                        </button>
+                        <button
+                          onClick={handleBtnOnClick}
+                          type="button"
+                        >
+                          Adicionar ao carrinho
+                        </button>
+                      </div>
+                    )
+                    : null
+                }
               </div>
             </div>
           ) : <Loading />

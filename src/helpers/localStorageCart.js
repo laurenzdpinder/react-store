@@ -40,8 +40,6 @@ export const addOrder = (order) => {
       profile[0].orders = [{ order }];
     } else {
       const prevOrders = profile[0].orders;
-      // const i = profile[0].orders.length;
-      // const currentOrder = `order${i}`;
       profile[0].orders = [...prevOrders, { order }];
     }
     setItem(LOGIN, profile);
