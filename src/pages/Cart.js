@@ -76,7 +76,7 @@ function Cart() {
             <div className="cart-alert-container">
               <div className="cart-alert">
                 {
-                  units
+                  units > 1
                     ? <h3>{`Apenas ${units} unidades deste produto estão disponíveis!`}</h3>
                     : <h3>{`Apenas ${units} unidade deste produto está disponível!`}</h3>
                 }
