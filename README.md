@@ -22,7 +22,7 @@ If you want to run the project on your machine, follow these steps:
 1. Clone the repository using the following command:
 
 ```
-git clone https://github.com/your-username/react-store.git
+git clone git@github.com:laurenzdpinder/react-store.git
 ```
 
 2. Enter the project folder:
