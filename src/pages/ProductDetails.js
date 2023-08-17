@@ -220,8 +220,8 @@ function ProductDetails() {
                                 // set input value
                                 onChange={(({ target: { value } }) => setQuantity(Number(value)))}
                                 onKeyDown={(event) => {
-                                  // Impede a entrada do caractere de ponto (.) ou vírgula (,)
-                                  if (event.key === '.' || event.key === ',') {
+                                  // Impede a entrada do caracteres
+                                  if (['.', ',', 'e'].includes(event.key)) {
                                     event.preventDefault();
                                   }
                                 }}
