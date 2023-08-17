@@ -216,8 +216,15 @@ function ProductDetails() {
                               <input
                                 // eslint-disable-next-line jsx-a11y/no-autofocus
                                 autoFocus
+                                // eslint-disable-next-line max-len
                                 // set input value
                                 onChange={(({ target: { value } }) => setQuantity(Number(value)))}
+                                onKeyDown={(event) => {
+                                  // Impede a entrada do caractere de ponto (.) ou vírgula (,)
+                                  if (event.key === '.' || event.key === ',') {
+                                    event.preventDefault();
+                                  }
+                                }}
                                 type="number"
                                 value={quantity > 0 ? quantity : ''}
                               />
